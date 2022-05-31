@@ -44,8 +44,8 @@ export default function Dashboard({ code }: DashboardProps) {
     const playMusic = useCallback(() => {
         // console.log("USING PLAY MUSIC FUNCTION");
         playingAudio?.current?.play();
-        ($(".alert") as any).alert('close');
-        // setMusicPlaying(true);
+        // ($(".alert") as any).alert('close'); TODO figure out how to make this work
+        setMusicPlaying(true);
 
     }, [playingAudio]);
 
