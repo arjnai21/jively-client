@@ -32,12 +32,19 @@ export default function Dashboard({ code }: DashboardProps) {
     // const [searchResults, setSearchResults] = useState<Track[]>([]);
     const [playingTrackInd, setPlayingTrackInd] = useState<number>(-1);
     const [liked, setLiked] = useState(false);
+    const [musicPlaying, setMusicPlaying] = useState(true);
+
     const playingAudio = useRef<HTMLAudioElement>();
     const tracks = useRef<Array<Track>>([]);
 
 
 
+    const playMusic = useCallback(() => {
+        // console.log("USING PLAY MUSIC FUNCTION");
+        playingAudio?.current?.play();
+        setMusicPlaying(true);
 
+    }, [playingAudio]);
 
 
 
@@ -58,9 +65,26 @@ export default function Dashboard({ code }: DashboardProps) {
         playingAudio?.current?.pause();
         playingAudio?.current?.remove();
         const newAudio = new Audio(tracks.current[playingTrackInd].previewUrl);
-        newAudio.muted = true;
-        newAudio.play();
-        newAudio.muted = false;
+        // newAudio.muted = true;
+        const startPlayPromise = newAudio.play();
+        if (startPlayPromise !== undefined) {
+            startPlayPromise.then(() => {
+                // Start whatever you need to do only after playback
+                // has begun.
+            }).catch(error => {
+                if (error.name === "NotAllowedError") {
+                    // they haven't interacted with site so autoplay is not allowed
+                    // showPlayButton(videoElem);
+                    setMusicPlaying(false);
+                    document.addEventListener('mousedown', playMusic)
+                    document.addEventListener('keydown', playMusic)
+
+                } else {
+                    // Handle a load or playback error
+                }
+            });
+        }
+        // newAudio.muted = false;
         newAudio.loop = true;
         playingAudio.current = newAudio;
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,7 +259,16 @@ export default function Dashboard({ code }: DashboardProps) {
                 </Col>
 
             </Row> */}
-
+            {(!musicPlaying) && <Row className='fixed-top m40 p-20'>
+                <Col className='p-20'>
+                    <div className="alert alert-danger alert-dismissible fade show float-top p-20" role="alert">
+                        <strong>Music not playing?</strong> Tap anywhere to begin.
+                        {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> */}
+                    </div>
+                </Col>
+            </Row>}
             {(tracks.current.length > 0 && playingTrackInd >= 0) ?
                 <Row className="d-flex justify-content-center align-items-center">
                     <Col className=" float-right" lg={1}> {/*float not working*/}

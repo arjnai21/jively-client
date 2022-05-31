@@ -19,7 +19,7 @@ export default function Login() {
                         <br></br>
                     </Row>
                     <Row>
-                        <a className="btn btn-success btn-lg" style={{ width: "300px" }} href={AUTH_URL}> Login With Spotify</a>
+                        <a className="btn btn-success btn-lg" style={{ width: "300px" }} href={AUTH_URL} rel="noreferrer"> Login With Spotify</a>
                     </Row>
                 </Col>
             </Row>
