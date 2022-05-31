@@ -14,7 +14,7 @@ export default function useAuth(code: unknown) {
         }).then(res => {
             // res.data.expiresIn = 70;
             console.log(res.data);
-            window.history.pushState({}, "", "/");
+            window.history.pushState({}, "", "/jively-client");
             setAccessToken(res.data.accessToken);
             setRefreshToken(res.data.refreshToken);
             setExpiresIn(res.data.expiresIn);
