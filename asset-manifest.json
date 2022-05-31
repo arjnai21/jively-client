@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jively-client/static/css/main.8a63d020.css",
+    "main.js": "/jively-client/static/js/main.46445aef.js",
+    "index.html": "/jively-client/index.html",
+    "main.8a63d020.css.map": "/jively-client/static/css/main.8a63d020.css.map",
+    "main.46445aef.js.map": "/jively-client/static/js/main.46445aef.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a63d020.css",
+    "static/js/main.46445aef.js"
+  ]
+}
