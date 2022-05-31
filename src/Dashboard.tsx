@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
-import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill } from "react-bootstrap-icons";
+import $ from 'jquery';
+
+import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, YinYang } from "react-bootstrap-icons";
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -42,7 +44,8 @@ export default function Dashboard({ code }: DashboardProps) {
     const playMusic = useCallback(() => {
         // console.log("USING PLAY MUSIC FUNCTION");
         playingAudio?.current?.play();
-        setMusicPlaying(true);
+        ($(".alert") as any).alert('close');
+        // setMusicPlaying(true);
 
     }, [playingAudio]);
 
@@ -261,7 +264,7 @@ export default function Dashboard({ code }: DashboardProps) {
             </Row> */}
             {(!musicPlaying) && <Row className='fixed-top m40 p-20'>
                 <Col className='p-20'>
-                    <div className="alert alert-danger alert-dismissible fade show float-top p-20" role="alert">
+                    <div id="alert" className="alert alert-info alert-dismissible fade show float-top p-20" role="alert">
                         <strong>Music not playing?</strong> Tap anywhere to begin.
                         {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
