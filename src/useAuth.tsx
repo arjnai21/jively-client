@@ -9,7 +9,7 @@ export default function useAuth(code: unknown) {
 
     useEffect(() => {
         console.log("using effect");
-        axios.post("http://localhost:3001/login", {
+        axios.post("http://jively.herokuapp.com/login", {
             code,
         }).then(res => {
             // res.data.expiresIn = 70;
@@ -33,7 +33,7 @@ export default function useAuth(code: unknown) {
             return;
         }
         const interval = setInterval(() => {
-            axios.post("http://localhost:3001/refresh", {
+            axios.post("http://jively.herokuapp.com/refresh", {
                 refreshToken,
             }).then(res => {
                 // res.data.expiresIn = 70;
