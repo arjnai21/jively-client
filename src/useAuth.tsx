@@ -19,7 +19,7 @@ export default function useAuth(code: unknown) {
             setRefreshToken(res.data.refreshToken);
             setExpiresIn(res.data.expiresIn);
         }).catch((err) => {
-            console.log("got error frmo api");
+            console.log("got error from api");
             console.log(err);
             // window.location.href =  "/";
         });
