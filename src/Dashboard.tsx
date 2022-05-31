@@ -58,7 +58,9 @@ export default function Dashboard({ code }: DashboardProps) {
         playingAudio?.current?.pause();
         playingAudio?.current?.remove();
         const newAudio = new Audio(tracks.current[playingTrackInd].previewUrl);
+        newAudio.muted = true;
         newAudio.play();
+        newAudio.muted = false;
         newAudio.loop = true;
         playingAudio.current = newAudio;
         // eslint-disable-next-line react-hooks/exhaustive-deps
