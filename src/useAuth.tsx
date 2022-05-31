@@ -8,18 +8,15 @@ export default function useAuth(code: unknown) {
     const [expiresIn, setExpiresIn] = useState();
 
     useEffect(() => {
-        console.log("using effect");
-        axios.post("https://jively.herokuapp.com/login", {
+        axios.post(process.env.REACT_APP_SERVER + "/login", {
             code,
         }).then(res => {
             // res.data.expiresIn = 70;
-            console.log(res.data);
             window.history.pushState({}, "", "/");
             setAccessToken(res.data.accessToken);
             setRefreshToken(res.data.refreshToken);
             setExpiresIn(res.data.expiresIn);
         }).catch((err) => {
-            console.log("got error from api");
             console.log(err);
             // window.location.href =  "/";
         });
@@ -28,16 +25,13 @@ export default function useAuth(code: unknown) {
     useEffect(() => {
 
         if (!refreshToken || !expiresIn) {
-            console.log(refreshToken);
-            console.log(expiresIn);
             return;
         }
         const interval = setInterval(() => {
-            axios.post("https://jively.herokuapp.com/refresh", {
+            axios.post(process.env.REACT_APP_SERVER + "/refresh", {
                 refreshToken,
             }).then(res => {
                 // res.data.expiresIn = 70;
-                console.log(res.data);
                 setAccessToken(res.data.accessToken);
                 setExpiresIn(res.data.expiresIn);
                 // window.history.pushState({}, null, "/");
@@ -45,7 +39,6 @@ export default function useAuth(code: unknown) {
                 // setRefreshToken(res.data.resfreshToken);
                 // setExpiresIn(res.data.expiresIn);
             }).catch((err) => {
-                console.log("got error frmo api");
                 console.log(err);
                 // window.location.href =  "/";
             });

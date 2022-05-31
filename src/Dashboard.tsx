@@ -210,23 +210,16 @@ export default function Dashboard({ code }: DashboardProps) {
 
     const likeSong = useCallback(() => {
         spotifyApi.addToMySavedTracks([tracks.current[playingTrackInd].id]).then((res) => {
-            console.log(res.body);
-            console.log("liked song");
             setLiked(true);
         })
     }, [playingTrackInd]);
 
     const unLikeSong = useCallback(() => {
         spotifyApi.removeFromMySavedTracks([tracks.current[playingTrackInd].id]).then((res) => {
-            console.log(res.body);
-            console.log("unliked song");
             setLiked(false);
         })
     }, [playingTrackInd]);
 
-    console.log(playingTrackInd)
-
-    console.log(tracks)
 
     // TODO this uses absolutely horrendous bootstrap styling. somebody please redo this whole thing
     return (
@@ -241,7 +234,7 @@ export default function Dashboard({ code }: DashboardProps) {
 
             </Row> */}
 
-            {(tracks.current.length > 0 && playingTrackInd >= 0) &&
+            {(tracks.current.length > 0 && playingTrackInd >= 0) ?
                 <Row className="d-flex justify-content-center align-items-center">
                     <Col className=" float-right" lg={1}> {/*float not working*/}
                         <Row>
@@ -306,6 +299,9 @@ export default function Dashboard({ code }: DashboardProps) {
                     </Col>
 
                 </Row >
+                : <Row className='d-flex justify-content-center align-items-center'><Col className='d-flex justify-content-center align-items-center'><div className="spinner-grow text-light m-5 " role="status" style={{ width: "5rem", height: "5rem" }}>
+
+                </div></Col></Row>
             }
             {/* <div className='flex-grow-1 my-2' style={{ overflowY: "auto" }}>
                 {searchResults.map((track: Track) => (
