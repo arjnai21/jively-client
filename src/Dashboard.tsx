@@ -48,7 +48,7 @@ export default function Dashboard({ code }: DashboardProps) {
         // ($(".alert") as any).alert('close'); TODO figure out how to make this work
         setMusicPlaying(true);
 
-    }, [playingAudio]);
+    }, []);
 
 
 
