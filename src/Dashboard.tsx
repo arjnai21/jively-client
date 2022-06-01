@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
-import $ from 'jquery';
 
 import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, YinYang } from "react-bootstrap-icons";
+// import $ from 'jquery';
+const spotifyLogo = require('./assets/Spotify_Logo_RGB_White.png');
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -250,7 +251,7 @@ export default function Dashboard({ code }: DashboardProps) {
     }, [playingTrackInd]);
 
 
-    // TODO this uses absolutely horrendous bootstrap styling. somebody please redo this whole thing
+    // TODO this uses absolutely horrendous bootstrap styling. somebody please learn bootstrap and redo this whole thing
     return (
         <Container className="d-flex flex-column py-2 justify-content-center align-items-left" style={{ height: "100vh" }} onKeyUp={handleKeyUp}>
             {/* <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={(e => setSearch(e.target.value))}
@@ -272,6 +273,10 @@ export default function Dashboard({ code }: DashboardProps) {
                     </div>
                 </Col>
             </Row>}
+            <Row>
+                <Col>
+                </Col>
+            </Row>
             {(tracks.current.length > 0 && playingTrackInd >= 0) ?
                 <Row className="d-flex justify-content-center align-items-center">
                     <Col className=" float-right" lg={1}> {/*float not working*/}
@@ -282,6 +287,10 @@ export default function Dashboard({ code }: DashboardProps) {
                     </Col>
                     <Col xs={1} md={1} lg={1}></Col>
                     <Col>
+                        <div className='text-center'>
+                            <img className=' pb-3 pr-3' src={spotifyLogo} alt='' width={'200px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
+                        </div>
+                        {/* <div className="p-3">hello</div> */}
                         <img
                             src={tracks.current[playingTrackInd].albumUrl}
                             alt="loading"
