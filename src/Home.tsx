@@ -5,7 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 // TODO figure out if background color is light or dark and make text white or black based on that
 // also make some cool animation or somethin
-import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill } from "react-bootstrap-icons";
+import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, VolumeMute, VolumeUp } from "react-bootstrap-icons";
 //@ts-ignore
 import ColorThief from "colorthief";
 
@@ -45,6 +45,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
     // const [searchResults, setSearchResults] = useState<Track[]>([]);
     const [playingTrackInd, setPlayingTrackInd] = useState<number>(-1);
     const [liked, setLiked] = useState(false);
+    const [muted, setMuted] = useState(false);
     const [musicPlaying, setMusicPlaying] = useState(true);
 
     const playingAudio = useRef<HTMLAudioElement>();
@@ -255,6 +256,13 @@ export default function Home({ code, refreshToken }: HomeProps) {
         window.open(tracks.current[playingTrackInd].link);
     }
 
+    const muteAudio = () => {
+        if (playingAudio && playingAudio.current) {
+            playingAudio.current.muted = !playingAudio.current.muted;
+            setMuted((prevMuted) => !muted);
+        }
+
+    }
 
     useEffect(() => {
         if (!accessToken) return;
@@ -374,6 +382,16 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                             <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
                                 <div className="h9">&nbsp;&nbsp;&nbsp;Open in Spotify</div>
+                            </Col>
+                            <Col lg={20}></Col>
+                        </Row>
+                        <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
+                            <Col lg={1} className="pr-0 ">
+                                {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />}
+                            </Col>
+
+                            <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
+                                <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "Unmute" : "Mute"}</div>
                             </Col>
                             <Col lg={20}></Col>
                         </Row>
