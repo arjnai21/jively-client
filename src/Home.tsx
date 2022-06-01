@@ -293,15 +293,15 @@ export default function Home({ code }: HomeProps) {
             </Row>
             {(tracks.current.length > 0 && playingTrackInd >= 0) ?
                 <Row className="d-flex justify-content-center align-items-center">
-                    <Col className=" float-right" lg={1}> {/*float not working*/}
-                        <Row>
-                            <CaretLeft className='pb-100' color='white' size={100} onClick={prevSong} style={{ cursor: "pointer" }} fill="white" />
+                    <Col className=" float-right" xs={1} md={1} lg={1}> {/*float not working*/}
+                        {/* <Row> */}
+                        <CaretLeft className='pb-100' color='white' size={100} onClick={prevSong} style={{ cursor: "pointer" }} fill="white" />
 
-                        </Row>
+                        {/* </Row> */}
                     </Col>
                     <Col xs={1} md={1} lg={1}></Col>
-                    <Col>
-                        <div className='text-center'>
+                    <Col xs={1} md={5} lg={5} >
+                        <div className='text-left'>
                             <img className=' pb-3 pr-3' src={spotifyLogo} alt='' width={'200px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
                         </div>
                         {/* <div className="p-3">hello</div> */}
@@ -331,7 +331,7 @@ export default function Home({ code }: HomeProps) {
                         </Col> */}
                     {/* <Col lg={1}></Col> */}
                     {/* <Col lg={1}></Col> */}
-                    <Col className="= flex-column  justify-content-center align-items-left text-white text-center" lg={5} >
+                    <Col className="= flex-column  justify-content-center align-items-left text-white text-center" lg={4} md={4} >
 
                         <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " style={{ cursor: "pointer" }} >
                             <Col lg={1} className="pr-0 ">
@@ -360,11 +360,12 @@ export default function Home({ code }: HomeProps) {
                             <Col lg={20}></Col>
                         </Row>
                     </Col>
-                    <Col className=" float-right" lg={1}> {/*float not working*/}
-                        <Row>
-                            <CaretRight className='pb-100' color='white' size={200} onClick={nextSong} style={{ cursor: "pointer" }} />
+                    <Col className="fixed-end" lg={1} md={1} xs={1}> {/*float and fixed not working*/}
+                        {/* <Row className='fixed-right'> */}
 
-                        </Row>
+                        <CaretRight className='fixed-end' color='white' size={100} onClick={nextSong} style={{ cursor: "pointer" }} />
+
+                        {/* </Row> */}
                     </Col>
 
                 </Row >
