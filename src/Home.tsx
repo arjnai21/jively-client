@@ -146,16 +146,21 @@ export default function Home({ code, refreshToken }: HomeProps) {
         const characters = 'abcdefghijklmnopqrstuvwxyz';
 
         // Gets a random character from the characters string.
-        const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
+        let randomQuery = characters.charAt(Math.floor(Math.random() * characters.length));
+        // randomly decide to use two characters or one
+        if (Math.floor(Math.random() * 2) === 0) {
+            randomQuery += characters.charAt(Math.floor(Math.random() * characters.length));
+
+        }
         let randomSearch = '';
 
         // Places the wildcard character at the beginning, or both beginning and end, randomly.
         switch (Math.round(Math.random())) {
             case 0:
-                randomSearch = randomCharacter + '%';
+                randomSearch = randomQuery + '%';
                 break;
             case 1:
-                randomSearch = '%' + randomCharacter + '%';
+                randomSearch = '%' + randomQuery + '%';
                 break;
         }
         spotifyApi.searchTracks(randomSearch, {
