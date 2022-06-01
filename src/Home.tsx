@@ -45,7 +45,7 @@ export default function Home({ code }: HomeProps) {
 
     const playingAudio = useRef<HTMLAudioElement>();
     const tracks = useRef<Array<Track>>([]);
-    const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([83, 104, 120]);
+    const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([54, 69, 79]);
 
 
 
@@ -312,7 +312,6 @@ export default function Home({ code }: HomeProps) {
                             className="mx-auto"
                             id='albumImage'
                             onLoad={function () {
-
                                 const img = document.getElementById('albumImage');
                                 const colorThief = new ColorThief();
                                 setBackgroundRGB(colorThief.getPalette(img)[2]);
