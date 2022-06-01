@@ -3,7 +3,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, YinYang } from "react-bootstrap-icons";
+
+import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill } from "react-bootstrap-icons";
+//@ts-ignore
+import ColorThief from "colorthief";
+
 // import $ from 'jquery';
 const spotifyLogo = require('./assets/Spotify_Logo_RGB_White.png');
 
@@ -14,7 +18,7 @@ const spotifyApi = new SpotifyWebApi({
 
 // let tracks = new Array<Track>();
 
-interface DashboardProps {
+interface HomeProps {
     code: string,
 }
 
@@ -27,7 +31,9 @@ export interface Track {
     link: string,
     id: string,
 }
-export default function Dashboard({ code }: DashboardProps) {
+// const colorThief = new ColorThief();
+
+export default function Home({ code }: HomeProps) {
     const accessToken = useAuth(code);
 
 
@@ -39,6 +45,8 @@ export default function Dashboard({ code }: DashboardProps) {
 
     const playingAudio = useRef<HTMLAudioElement>();
     const tracks = useRef<Array<Track>>([]);
+    const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([83, 104, 120]);
+
 
 
 
@@ -56,7 +64,11 @@ export default function Dashboard({ code }: DashboardProps) {
     useEffect(() => {
 
 
+
+
+
         if (tracks.current.length === 0) return;
+
         // if (playingTrackInd < 0) {
         //     setPlayingTrackInd(0);
         //     return;
@@ -156,6 +168,7 @@ export default function Dashboard({ code }: DashboardProps) {
                 if (callback) {
                     callback();
 
+
                 }
 
             }
@@ -253,7 +266,7 @@ export default function Dashboard({ code }: DashboardProps) {
 
     // TODO this uses absolutely horrendous bootstrap styling. somebody please learn bootstrap and redo this whole thing
     return (
-        <Container className="d-flex flex-column py-2 justify-content-center align-items-left" style={{ height: "100vh" }} onKeyUp={handleKeyUp}>
+        <Container fluid className="d-flex flex-column py-2 justify-content-center align-items-left" style={{ height: "100vh", backgroundColor: 'rgb(' + backgroundRGB.join(',') + ')', }} onKeyUp={handleKeyUp}>
             {/* <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={(e => setSearch(e.target.value))}
             /> */}
             {/* <Row className="  ml-100">
@@ -294,8 +307,17 @@ export default function Dashboard({ code }: DashboardProps) {
                         <img
                             src={tracks.current[playingTrackInd].albumUrl}
                             alt="loading"
+                            crossOrigin='anonymous'
                             style={{ height: "50vh", width: "50vh" }}
                             className="mx-auto"
+                            id='albumImage'
+                            onLoad={function () {
+
+                                const img = document.getElementById('albumImage');
+                                const colorThief = new ColorThief();
+                                setBackgroundRGB(colorThief.getPalette(img)[2]);
+                                console.log();
+                            }}
                         />
                         <div className='text-white'>
                             <h4>{tracks.current[playingTrackInd].title}</h4>

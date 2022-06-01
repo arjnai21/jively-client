@@ -1,13 +1,13 @@
 import React from 'react';
 import './custom.scss';
 import Login from "./Login";
-import Dashboard from "./Dashboard";
+import Home from "./Home";
 
 const code = new URLSearchParams(window.location.search).get('code');
 function App() {
     return (
 
-        code ? <Dashboard code={code}></Dashboard> : <Login />
+        code ? <Home code={code} ></Home> : <Login />
     );
 }
 
