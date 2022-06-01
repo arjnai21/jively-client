@@ -47,6 +47,8 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
     const playingAudio = useRef<HTMLAudioElement>();
     const tracks = useRef<Array<Track>>([]);
+    const trackTitleSet = useRef<Set<string>>(new Set());
+
     const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([54, 69, 79]);
 
 
@@ -151,7 +153,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             const track = result.body?.tracks?.items[0];
 
 
-            if (track?.preview_url == null) {
+            if (track?.preview_url == null || trackTitleSet.current.has(track.name)) {
                 getRandomTrack(callback);
 
             } else {
@@ -166,6 +168,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                 }
                 tracks.current.push(newTrack);
+                trackTitleSet.current.add(newTrack.title);
                 // setTracks(prevTracks => prevTracks.concat(newTrack));
                 if (callback) {
                     callback();
