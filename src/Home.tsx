@@ -316,7 +316,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                         {/* </Row> */}
                     </Col>
                     <Col xs={1} md={1} lg={1}></Col>
-                    <Col xs={1} md={5} lg={5} >
+                    <Col xs={1} md={5} lg={4} >
                         <div className='text-left'>
                             <img className=' pb-3 pr-3' src={spotifyLogo} alt='' width={'200px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
                         </div>
@@ -349,7 +349,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                         </Col> */}
                     {/* <Col lg={1}></Col> */}
                     {/* <Col lg={1}></Col> */}
-                    <Col className={"flex-column  justify-content-center align-items-left  text-center outline text-" + elementColor} lg={4} md={4} >
+                    <Col className={"flex-column  justify-content-center align-items-left  text-center outline text-" + elementColor} lg={5} md={4} >
 
                         <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
                             <Col lg={1} className="pr-0 ">
