@@ -3,7 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 
-
+// TODO figure out if background color is light or dark and make text white or black based on that
+// also make some cool animation or somethin
 import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill } from "react-bootstrap-icons";
 //@ts-ignore
 import ColorThief from "colorthief";
