@@ -20,7 +20,8 @@ const spotifyApi = new SpotifyWebApi({
 // let tracks = new Array<Track>();
 
 interface HomeProps {
-    code: string,
+    code: string | null,
+    refreshToken: string | null,
 }
 
 export interface Track {
@@ -34,8 +35,8 @@ export interface Track {
 }
 // const colorThief = new ColorThief();
 
-export default function Home({ code }: HomeProps) {
-    const accessToken = useAuth(code);
+export default function Home({ code, refreshToken }: HomeProps) {
+    const accessToken = useAuth(code, refreshToken);
 
 
     // const [search, setSearch] = useState("");
