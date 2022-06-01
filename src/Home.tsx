@@ -228,6 +228,21 @@ export default function Home({ code, refreshToken }: HomeProps) {
         setLiked(false);
     }, [getRandomTrack, playingTrackInd]);
 
+
+
+
+
+    function openInSpotify() {
+        window.open(tracks.current[playingTrackInd].link);
+    }
+
+    const muteAudio = useCallback(() => {
+        if (playingAudio && playingAudio.current) {
+            playingAudio.current.muted = !playingAudio.current.muted;
+            setMuted((prevMuted) => !muted);
+        }
+
+    }, [muted]);
     const handleKeyUp = useCallback((e: any) => {
 
 
@@ -242,8 +257,12 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
             prevSong();
         }
+
+        else if (e.keyCode == 77) { // 'm' was pressed
+            muteAudio();
+        }
         // getRandomTrack();
-    }, [prevSong, nextSong]);
+    }, [prevSong, nextSong, muteAudio]);
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyUp);
@@ -251,18 +270,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
             document.removeEventListener('keyup', handleKeyUp);
         }
     }, [handleKeyUp]);
-
-    function openInSpotify() {
-        window.open(tracks.current[playingTrackInd].link);
-    }
-
-    const muteAudio = () => {
-        if (playingAudio && playingAudio.current) {
-            playingAudio.current.muted = !playingAudio.current.muted;
-            setMuted((prevMuted) => !muted);
-        }
-
-    }
 
     useEffect(() => {
         if (!accessToken) return;
