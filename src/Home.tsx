@@ -62,8 +62,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         spotifyLogo = spotifyLogoBlack;
 
     }
-    console.log(luma)
-
 
 
 
@@ -283,7 +281,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         })
     }, [playingTrackInd]);
 
-    console.log(elementColor)
     // TODO this uses absolutely horrendous bootstrap styling. somebody please learn bootstrap and redo this whole thing
     return (
         <Container fluid className="d-flex flex-column py-2 justify-content-center align-items-left" style={{ height: "100vh", backgroundColor: 'rgb(' + backgroundRGB.join(',') + ')', }} onKeyUp={handleKeyUp}>
@@ -354,11 +351,11 @@ export default function Home({ code, refreshToken }: HomeProps) {
                     {/* <Col lg={1}></Col> */}
                     <Col className={"flex-column  justify-content-center align-items-left  text-center outline text-" + elementColor} lg={4} md={4} >
 
-                        <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " style={{ cursor: "pointer" }} >
+                        <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
                             <Col lg={1} className="pr-0 ">
                                 {(!liked) ?
-                                    <Heart color={elementColor} size={40} onClick={likeSong} className='outline' />
-                                    : <HeartFill color={elementColor} size={40} onClick={unLikeSong} />}
+                                    <Heart color={elementColor} size={40} className='outline' />
+                                    : <HeartFill color={elementColor} size={40} />}
                             </Col>
 
                             <Col lg={5} className="text-left align-text-left d-flex justify-content-left">
