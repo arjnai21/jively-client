@@ -195,15 +195,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
     const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([254, 234, 217]);
     var luma = 0.299 * backgroundRGB[0] + 0.587 * backgroundRGB[1] + 0.114 * backgroundRGB[2];  ///get brightness. ntsc formula
-    let elementColor = 'white';
+    let elementColor = (luma > 130) ? 'black' : "white";
     let spotifyLogo = spotifyLogoWhite;
     // TODO not just black or white, but a different color in the album color palette
-    if (luma > 130) { //background color too bright
 
-        elementColor = 'black';
-        spotifyLogo = spotifyLogoBlack;
-
-    }
 
     // populate genres on component mount
     useEffect(() => {
@@ -627,7 +622,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             <Row className='fixed-bottom pb-2'>
                 <Col className='d-flex justify-content-center align-items-center'>
                     <div className={"text-" + elementColor}  >
-                        <strong>Feedback?</strong> Email me at <a href="mailto:arjun@jively.app" className=''>arjun@jively.app</a>.
+                        <strong>Feedback?</strong> Email me at <a href="mailto:arjun@jively.app" className={'link-' + ((elementColor === "black") ? "dark" : "light")}>arjun@jively.app</a>.
                         {/* <strong>Feedback?</strong> Email me at arjun@jively.app. */}
                         {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
