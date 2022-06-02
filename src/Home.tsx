@@ -371,7 +371,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
             getRandomTrack();
             getRandomTrack();
-            getRandomTrack();
+            // getRandomTrack();
             // getRandomTrack();
 
 
@@ -435,7 +435,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
         }
         getRandomTrack();
         getRandomTrack();
-        getRandomTrack();
+        // getRandomTrack();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken]);
 
