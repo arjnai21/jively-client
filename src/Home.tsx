@@ -5,16 +5,14 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 // TODO figure out why it loads so slow on first go
 
-// TODO figure out if background color is light or dark and make text white or black based on that
 // also make some cool animation or somethin
 import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, VolumeMute, VolumeUp } from "react-bootstrap-icons";
 //@ts-ignore
 import ColorThief from "colorthief";
 
-// import $ from 'jquery';
 const spotifyLogoWhite = require('./assets/Spotify_Logo_RGB_White.png');
 const spotifyLogoBlack = require('./assets/Spotify_Logo_RGB_Black.png');
-const logo = require('./assets/jively_logo.png')
+// const logo = require('./assets/jively_logo.png')
 
 
 
@@ -41,21 +39,16 @@ export interface Track {
     link: string,
     id: string,
 }
-// const colorThief = new ColorThief();
 
 export default function Home({ code, refreshToken }: HomeProps) {
     const accessToken = useAuth(code, refreshToken);
 
 
-    // const [search, setSearch] = useState("");
-    // const [searchResults, setSearchResults] = useState<Track[]>([]);
     // TODO maybe extrapolate all of these into some kind of state object
     const [playingTrackInd, setPlayingTrackInd] = useState<number>(-1);
     const [liked, setLiked] = useState(false);
     const [muted, setMuted] = useState(false);
     const [musicPlaying, setMusicPlaying] = useState(true);
-    // TODO gotta be a better way to do this right. maybe maintain a list of all genres, then a set of selected genres
-    // @ts-ignore
     const [searchGenres, setSearchGenres] = useState(new Set());
 
     // const [searchGenres, setSearchGenres] = useState({
@@ -213,9 +206,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
 
     const playMusic = useCallback(() => {
-        // console.log("USING PLAY MUSIC FUNCTION");
         playingAudio?.current?.play();
-        // ($(".alert") as any).alert('close'); TODO figure out how to make this work
         setMusicPlaying(true);
 
     }, []);
@@ -272,23 +263,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playingTrackInd]);
 
-
-
-    // function chooseTrack(track: Track) {
-    //     setPlayingTrack(track);
-    //     setSearch('');
-    // }
-
-
-
-
-
-
-
-
-
-
-
     const getRandomTrack = useCallback((callback?: Function) => {
 
         // A list of all characters that can be chosen.
@@ -329,7 +303,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         }).then((result) => {
             const track = result.body?.tracks?.items[0];
 
-
             if (track?.preview_url == null || trackTitleSet.current.has(track.name)) {
                 getRandomTrack(callback);
 
@@ -345,13 +318,9 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                 }
                 tracks.current.push(newTrack);
-
                 trackTitleSet.current.add(newTrack.title);
-                // setTracks(prevTracks => prevTracks.concat(newTrack));
                 if (callback) {
                     callback();
-
-
                 }
 
             }
@@ -405,10 +374,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const muteAudio = useCallback(() => {
         if (playingAudio && playingAudio.current) {
             playingAudio.current.muted = !playingAudio.current.muted;
-            setMuted((prevMuted) => !muted);
+            setMuted((prevMuted) => !prevMuted);
         }
 
-    }, [muted]);
+    }, []);
     const handleKeyUp = useCallback((e: any) => {
 
 
