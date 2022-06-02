@@ -7,8 +7,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     // <App />
-
-    <div style={{ backgroundColor: "#36454F" }}>
+    // TODO maybe make the color of the logo a lil darker
+    <div style={{ backgroundColor: "#feead9" }}>
         <App />
     </div>
 );

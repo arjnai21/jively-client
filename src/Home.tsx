@@ -191,8 +191,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const trackTitleSet = useRef<Set<string>>(new Set());
 
 
-
-    const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([54, 69, 79]);
+    const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([254, 234, 217]);
     var luma = 0.299 * backgroundRGB[0] + 0.587 * backgroundRGB[1] + 0.114 * backgroundRGB[2];  ///get brightness. ntsc formula
     let elementColor = 'white';
     let spotifyLogo = spotifyLogoWhite;
@@ -496,7 +495,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                     {genres.map((genre) => {
                         //@ts-ignore
-                        return <label className={"btn btn-sm btn-" + ((searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
+                        return <label className={"btn btn-sm btn-" + ((!searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
                             setSearchGenres((prevGenres) => {
                                 if (!prevGenres.delete(genre)) {
                                     prevGenres.add(genre);
