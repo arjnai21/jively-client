@@ -484,19 +484,18 @@ export default function Home({ code, refreshToken }: HomeProps) {
                         //@ts-ignore
                         return <label className={"btn btn-sm btn-" + ((searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
                             setSearchGenres((prevGenres) => {
-                                if (prevGenres.has(genre)) {
-                                    prevGenres.delete(genre);
-                                }
-                                else {
+                                if (!prevGenres.delete(genre)) {
                                     prevGenres.add(genre);
+
                                 }
+
                                 // when the genres change, we have to remove everything after the current playing index, then get some more tracks
                                 tracks.current.length = playingTrackInd + 1;
                                 getRandomTrack();
                                 getRandomTrack();
                                 return new Set(prevGenres);
                                 // this feels inefficient
-                                // const newGenres = { ...prevGenres }
+                                // const newGenres = {...prevGenres}
                                 // //@ts-ignore
                                 // newGenres[key] = !prevGenres[key]
                                 // return newGenres;
