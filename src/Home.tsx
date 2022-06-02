@@ -512,6 +512,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Col>
 
             </Row>
+            <Row><div className="p-1"></div></Row>
             {
                 (tracks.current.length > 0 && playingTrackInd >= 0) ?
                     <Row className="d-flex justify-content-center align-items-center">
