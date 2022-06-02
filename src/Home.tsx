@@ -308,12 +308,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
         if (searchGenres.size > 0) {
             randomSearch += " genre:"
             const genreArray = Array.from(searchGenres);
-            console.log(genreArray);
             randomSearch += genreArray[Math.floor(Math.random() * genreArray.length)]
 
         }
 
-        console.log(randomSearch)
 
         spotifyApi.searchTracks(randomSearch, {
             offset: Math.floor(Math.random() * 1000),
@@ -321,8 +319,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
             market: "US",
         }).then((result) => {
             const track = result.body?.tracks?.items[0];
-            console.log(result.body);
-            console.log(track?.href);
 
 
             if (track?.preview_url == null || trackTitleSet.current.has(track.name)) {
@@ -540,8 +536,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     const colorThief = new ColorThief();
                                     const backgroundColor = colorThief.getPalette(img)[2]
                                     setBackgroundRGB(backgroundColor);
-
-                                    console.log();
                                 }}
                             />
                             <div className={'text-' + elementColor}>
