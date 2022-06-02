@@ -14,6 +14,8 @@ import ColorThief from "colorthief";
 // import $ from 'jquery';
 const spotifyLogoWhite = require('./assets/Spotify_Logo_RGB_White.png');
 const spotifyLogoBlack = require('./assets/Spotify_Logo_RGB_Black.png');
+const logo = require('./assets/jively_logo.png')
+
 
 
 
@@ -477,6 +479,13 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Col>
 
             </Row> */}
+            {/* TODO figure out where to put this logo and make a png for it */}
+            {/* <Row className='fixed-top m40 p-20'>
+                <Col md={12} lg={12} className="d-flex justify-content-left align-items-left">
+                    <img src={logo} alt="" width="100px" />
+                </Col>
+            </Row> */}
+
             {(!musicPlaying) && <Row className='fixed-top m40 p-20'>
                 <Col className='p-20'>
                     <div id="alert" className="alert alert-info alert-dismissible fade show float-top p-20" role="alert">
@@ -615,6 +624,17 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                     </div></Col></Row>
             }
+            <Row className='fixed-bottom pb-2'>
+                <Col className='d-flex justify-content-center align-items-center'>
+                    <div className={"text-" + elementColor}  >
+                        <strong>Feedback?</strong> Email me at <a href="mailto:arjun@jively.app" className=''>arjun@jively.app</a>.
+                        {/* <strong>Feedback?</strong> Email me at arjun@jively.app. */}
+                        {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> */}
+                    </div>
+                </Col>
+            </Row>
             {/* <div className='flex-grow-1 my-2' style={{ overflowY: "auto" }}>
                 {searchResults.map((track: Track) => (
                     <TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
