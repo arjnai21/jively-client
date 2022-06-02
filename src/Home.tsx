@@ -3,6 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 
+// TODO figure out why it loads so slow on first go
+
 // TODO figure out if background color is light or dark and make text white or black based on that
 // also make some cool animation or somethin
 import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, VolumeMute, VolumeUp } from "react-bootstrap-icons";
@@ -19,134 +21,7 @@ const spotifyApi = new SpotifyWebApi({
     clientId: "ceb94033180d45b781fb17de6036b363"
 });
 
-// const genres = [
-//     "acoustic",
-//     "afrobeat",
-//     "alt-rock",
-//     "alternative",
-//     "ambient",
-//     "anime",
-//     "black-metal",
-//     "bluegrass",
-//     "blues",
-//     "bossanova",
-//     "brazil",
-//     "breakbeat",
-//     "british",
-//     "cantopop",
-//     "chicago-house",
-//     "children",
-//     "chill",
-//     "classical",
-//     "club",
-//     "comedy",
-//     "country",
-//     "dance",
-//     "dancehall",
-//     "death-metal",
-//     "deep-house",
-//     "detroit-techno",
-//     "disco",
-//     "disney",
-//     "drum-and-bass",
-//     "dub",
-//     "dubstep",
-//     "edm",
-//     "electro",
-//     "electronic",
-//     "emo",
-//     "folk",
-//     "forro",
-//     "french",
-//     "funk",
-//     "garage",
-//     "german",
-//     "gospel",
-//     "goth",
-//     "grindcore",
-//     "groove",
-//     "grunge",
-//     "guitar",
-//     "happy",
-//     "hard-rock",
-//     "hardcore",
-//     "hardstyle",
-//     "heavy-metal",
-//     "hip-hop",
-//     "holidays",
-//     "honky-tonk",
-//     "house",
-//     "idm",
-//     "indian",
-//     "indie",
-//     "indie-pop",
-//     "industrial",
-//     "iranian",
-//     "j-dance",
-//     "j-idol",
-//     "j-pop",
-//     "j-rock",
-//     "jazz",
-//     "k-pop",
-//     "kids",
-//     "latin",
-//     "latino",
-//     "malay",
-//     "mandopop",
-//     "metal",
-//     "metal-misc",
-//     "metalcore",
-//     "minimal-techno",
-//     "movies",
-//     "mpb",
-//     "new-age",
-//     "new-release",
-//     "opera",
-//     "pagode",
-//     "party",
-//     "philippines-opm",
-//     "piano",
-//     "pop",
-//     "pop-film",
-//     "post-dubstep",
-//     "power-pop",
-//     "progressive-house",
-//     "psych-rock",
-//     "punk",
-//     "punk-rock",
-//     "r-n-b",
-//     "rainy-day",
-//     "reggae",
-//     "reggaeton",
-//     "road-trip",
-//     "rock",
-//     "rock-n-roll",
-//     "rockabilly",
-//     "romance",
-//     "sad",
-//     "salsa",
-//     "samba",
-//     "sertanejo",
-//     "show-tunes",
-//     "singer-songwriter",
-//     "ska",
-//     "sleep",
-//     "songwriter",
-//     "soul",
-//     "soundtracks",
-//     "spanish",
-//     "study",
-//     "summer",
-//     "swedish",
-//     "synth-pop",
-//     "tango",
-//     "techno",
-//     "trance",
-//     "trip-hop",
-//     "turkish",
-//     "work-out",
-//     "world-music"
-// ]
+const genres = ["acoustic", "afrobeat", "alt-rock", "alternative", "ambient", "anime", "black-metal", "bluegrass", "blues", "bossanova", "brazil", "breakbeat", "british", "cantopop", "chicago-house", "children", "chill", "classical", "club", "comedy", "country", "dance", "dancehall", "death-metal", "deep-house", "detroit-techno", "disco", "disney", "drum-and-bass", "dub", "dubstep", "edm", "electro", "electronic", "emo", "folk", "forro", "french", "funk", "garage", "german", "gospel", "goth", "grindcore", "groove", "grunge", "guitar", "happy", "hard-rock", "hardcore", "hardstyle", "heavy-metal", "hip-hop", "holidays", "honky-tonk", "house", "idm", "indian", "indie", "indie-pop", "industrial", "iranian", "j-dance", "j-idol", "j-pop", "j-rock", "jazz", "k-pop", "kids", "latin", "latino", "malay", "mandopop", "metal", "metal-misc", "metalcore", "minimal-techno", "movies", "mpb", "new-age", "new-release", "opera", "pagode", "party", "philippines-opm", "piano", "pop", "pop-film", "post-dubstep", "power-pop", "progressive-house", "psych-rock", "punk", "punk-rock", "r-n-b", "rainy-day", "reggae", "reggaeton", "road-trip", "rock", "rock-n-roll", "rockabilly", "romance", "sad", "salsa", "samba", "sertanejo", "show-tunes", "singer-songwriter", "ska", "sleep", "songwriter", "soul", "soundtracks", "spanish", "study", "summer", "swedish", "synth-pop", "tango", "techno", "trance", "trip-hop", "turkish", "work-out", "world-music"]
 
 // let tracks = new Array<Track>();
 
@@ -177,136 +52,138 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const [liked, setLiked] = useState(false);
     const [muted, setMuted] = useState(false);
     const [musicPlaying, setMusicPlaying] = useState(true);
-    // TODO gotta be a better way to do this right
+    // TODO gotta be a better way to do this right. maybe maintain a list of all genres, then a set of selected genres
     // @ts-ignore
-    const [searchGenres, setSearchGenres] = useState({
-        "acoustic": false,
-        "afrobeat": false,
-        "alt-rock": false,
-        "alternative": false,
-        "ambient": false,
-        "anime": false,
-        "black-metal": false,
-        "bluegrass": false,
-        "blues": false,
-        "bossanova": false,
-        "brazil": false,
-        "breakbeat": false,
-        "british": false,
-        "cantopop": false,
-        "chicago-house": false,
-        "children": false,
-        "chill": false,
-        "classical": false,
-        "club": false,
-        "comedy": false,
-        "country": false,
-        "dance": false,
-        "dancehall": false,
-        "death-metal": false,
-        "deep-house": false,
-        "detroit-techno": false,
-        "disco": false,
-        "disney": false,
-        "drum-and-bass": false,
-        "dub": false,
-        "dubstep": false,
-        "edm": false,
-        "electro": false,
-        "electronic": false,
-        "emo": false,
-        "folk": false,
-        "forro": false,
-        "french": false,
-        "funk": false,
-        "garage": false,
-        "german": false,
-        "gospel": false,
-        "goth": false,
-        "grindcore": false,
-        "groove": false,
-        "grunge": false,
-        "guitar": false,
-        "happy": false,
-        "hard-rock": false,
-        "hardcore": false,
-        "hardstyle": false,
-        "heavy-metal": false,
-        "hip-hop": false,
-        "holidays": false,
-        "honky-tonk": false,
-        "house": false,
-        "idm": false,
-        "indian": false,
-        "indie": false,
-        "indie-pop": false,
-        "industrial": false,
-        "iranian": false,
-        "j-dance": false,
-        "j-idol": false,
-        "j-pop": false,
-        "j-rock": false,
-        "jazz": false,
-        "k-pop": false,
-        "kids": false,
-        "latin": false,
-        "latino": false,
-        "malay": false,
-        "mandopop": false,
-        "metal": false,
-        "metal-misc": false,
-        "metalcore": false,
-        "minimal-techno": false,
-        "movies": false,
-        "mpb": false,
-        "new-age": false,
-        "new-release": false,
-        "opera": false,
-        "pagode": false,
-        "party": false,
-        "philippines-opm": false,
-        "piano": false,
-        "pop": false,
-        "pop-film": false,
-        "post-dubstep": false,
-        "power-pop": false,
-        "progressive-house": false,
-        "psych-rock": false,
-        "punk": false,
-        "punk-rock": false,
-        "r-n-b": false,
-        "rainy-day": false,
-        "reggae": false,
-        "reggaeton": false,
-        "road-trip": false,
-        "rock": false,
-        "rock-n-roll": false,
-        "rockabilly": false,
-        "romance": false,
-        "sad": false,
-        "salsa": false,
-        "samba": false,
-        "sertanejo": false,
-        "show-tunes": false,
-        "singer-songwriter": false,
-        "ska": false,
-        "sleep": false,
-        "songwriter": false,
-        "soul": false,
-        "soundtracks": false,
-        "spanish": false,
-        "study": false,
-        "summer": false,
-        "swedish": false,
-        "synth-pop": false,
-        "tango": false,
-        "techno": false,
-        "trance": false,
-        "trip-hop": false,
-        "turkish": false,
-        "work-out": false,
-        "world-music": false
-    });
+    const [searchGenres, setSearchGenres] = useState(new Set());
+
+    // const [searchGenres, setSearchGenres] = useState({
+    //     "acoustic": false,
+    //     "afrobeat": false,
+    //     "alt-rock": false,
+    //     "alternative": false,
+    //     "ambient": false,
+    //     "anime": false,
+    //     "black-metal": false,
+    //     "bluegrass": false,
+    //     "blues": false,
+    //     "bossanova": false,
+    //     "brazil": false,
+    //     "breakbeat": false,
+    //     "british": false,
+    //     "cantopop": false,
+    //     "chicago-house": false,
+    //     "children": false,
+    //     "chill": false,
+    //     "classical": false,
+    //     "club": false,
+    //     "comedy": false,
+    //     "country": false,
+    //     "dance": false,
+    //     "dancehall": false,
+    //     "death-metal": false,
+    //     "deep-house": false,
+    //     "detroit-techno": false,
+    //     "disco": false,
+    //     "disney": false,
+    //     "drum-and-bass": false,
+    //     "dub": false,
+    //     "dubstep": false,
+    //     "edm": false,
+    //     "electro": false,
+    //     "electronic": false,
+    //     "emo": false,
+    //     "folk": false,
+    //     "forro": false,
+    //     "french": false,
+    //     "funk": false,
+    //     "garage": false,
+    //     "german": false,
+    //     "gospel": false,
+    //     "goth": false,
+    //     "grindcore": false,
+    //     "groove": false,
+    //     "grunge": false,
+    //     "guitar": false,
+    //     "happy": false,
+    //     "hard-rock": false,
+    //     "hardcore": false,
+    //     "hardstyle": false,
+    //     "heavy-metal": false,
+    //     "hip-hop": false,
+    //     "holidays": false,
+    //     "honky-tonk": false,
+    //     "house": false,
+    //     "idm": false,
+    //     "indian": false,
+    //     "indie": false,
+    //     "indie-pop": false,
+    //     "industrial": false,
+    //     "iranian": false,
+    //     "j-dance": false,
+    //     "j-idol": false,
+    //     "j-pop": false,
+    //     "j-rock": false,
+    //     "jazz": false,
+    //     "k-pop": false,
+    //     "kids": false,
+    //     "latin": false,
+    //     "latino": false,
+    //     "malay": false,
+    //     "mandopop": false,
+    //     "metal": false,
+    //     "metal-misc": false,
+    //     "metalcore": false,
+    //     "minimal-techno": false,
+    //     "movies": false,
+    //     "mpb": false,
+    //     "new-age": false,
+    //     "new-release": false,
+    //     "opera": false,
+    //     "pagode": false,
+    //     "party": false,
+    //     "philippines-opm": false,
+    //     "piano": false,
+    //     "pop": false,
+    //     "pop-film": false,
+    //     "post-dubstep": false,
+    //     "power-pop": false,
+    //     "progressive-house": false,
+    //     "psych-rock": false,
+    //     "punk": false,
+    //     "punk-rock": false,
+    //     "r-n-b": false,
+    //     "rainy-day": false,
+    //     "reggae": false,
+    //     "reggaeton": false,
+    //     "road-trip": false,
+    //     "rock": false,
+    //     "rock-n-roll": false,
+    //     "rockabilly": false,
+    //     "romance": false,
+    //     "sad": false,
+    //     "salsa": false,
+    //     "samba": false,
+    //     "sertanejo": false,
+    //     "show-tunes": false,
+    //     "singer-songwriter": false,
+    //     "ska": false,
+    //     "sleep": false,
+    //     "songwriter": false,
+    //     "soul": false,
+    //     "soundtracks": false,
+    //     "spanish": false,
+    //     "study": false,
+    //     "summer": false,
+    //     "swedish": false,
+    //     "synth-pop": false,
+    //     "tango": false,
+    //     "techno": false,
+    //     "trance": false,
+    //     "trip-hop": false,
+    //     "turkish": false,
+    //     "work-out": false,
+    //     "world-music": false
+    // });
 
 
     const playingAudio = useRef<HTMLAudioElement>();
@@ -426,12 +303,26 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 randomSearch = '%' + randomQuery + '%';
                 break;
         }
+        // get random genre out of selected genres
+        // first reduce to array of selected genres
+        if (searchGenres.size > 0) {
+            randomSearch += " genre:"
+            const genreArray = Array.from(searchGenres);
+            console.log(genreArray);
+            randomSearch += genreArray[Math.floor(Math.random() * genreArray.length)]
+
+        }
+
+        console.log(randomSearch)
+
         spotifyApi.searchTracks(randomSearch, {
             offset: Math.floor(Math.random() * 1000),
             limit: 1,
             market: "US",
         }).then((result) => {
             const track = result.body?.tracks?.items[0];
+            console.log(result.body);
+            console.log(track?.href);
 
 
             if (track?.preview_url == null || trackTitleSet.current.has(track.name)) {
@@ -460,7 +351,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
             }
         })
-    }, []);
+    }, [searchGenres]);
 
     const prevSong = useCallback(() => {
         if (playingTrackInd > 0) {
@@ -485,7 +376,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             getRandomTrack();
             getRandomTrack();
             getRandomTrack();
-            getRandomTrack();
+            // getRandomTrack();
 
 
         }
@@ -526,7 +417,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             prevSong();
         }
 
-        else if (e.keyCode == 77) { // 'm' was pressed
+        else if (e.keyCode === 77) { // 'm' was pressed
             muteAudio();
         }
         // getRandomTrack();
@@ -590,110 +481,131 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 <Col>
                 </Col>
             </Row>
-            {/* <Row>  
+            <Row>
                 <Col className='gx-4'>
 
-                    {Object.keys(searchGenres).map((key) => {
-                        return <label className="btn btn-light btn-sm mr-2 gx-4" style={{ width: "auto", fontSize: "10px" }}>{key}</label>
+                    {genres.map((genre) => {
+                        //@ts-ignore
+                        return <label className={"btn btn-sm btn-" + ((searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
+                            setSearchGenres((prevGenres) => {
+                                if (prevGenres.has(genre)) {
+                                    prevGenres.delete(genre);
+                                }
+                                else {
+                                    prevGenres.add(genre);
+                                }
+                                // when the genres change, we have to remove everything after the current playing index, then get some more tracks
+                                tracks.current.length = playingTrackInd + 1;
+                                getRandomTrack();
+                                getRandomTrack();
+                                return new Set(prevGenres);
+                                // this feels inefficient
+                                // const newGenres = { ...prevGenres }
+                                // //@ts-ignore
+                                // newGenres[key] = !prevGenres[key]
+                                // return newGenres;
+                            });
+                        }} key={genre}>{genre}</label>
 
                     })}
-                  
+
                 </Col>
 
-            </Row> */}
-            {(tracks.current.length > 0 && playingTrackInd >= 0) ?
-                <Row className="d-flex justify-content-center align-items-center">
-                    <Col className=" float-right" xs={1} md={1} lg={1}> {/*float not working*/}
-                        {/* <Row> */}
-                        <CaretLeft className='pb-100' color={elementColor} size={100} onClick={prevSong} style={{ cursor: "pointer" }} fill={elementColor} />
+            </Row>
+            {
+                (tracks.current.length > 0 && playingTrackInd >= 0) ?
+                    <Row className="d-flex justify-content-center align-items-center">
+                        <Col className=" float-right" xs={1} md={1} lg={1}> {/*float not working*/}
+                            {/* <Row> */}
+                            <CaretLeft className='pb-100' color={elementColor} size={100} onClick={prevSong} style={{ cursor: "pointer" }} fill={elementColor} />
 
-                        {/* </Row> */}
-                    </Col>
-                    <Col xs={1} md={1} lg={1}></Col>
-                    <Col xs={1} md={5} lg={4} >
-                        <div className='text-left'>
-                            <img className=' pb-3 pr-3' src={spotifyLogo} alt='' width={'200px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
-                        </div>
-                        {/* <div className="p-3">hello</div> */}
-                        <img
-                            src={tracks.current[playingTrackInd].albumUrl}
-                            alt="loading"
-                            crossOrigin='anonymous'
-                            style={{ height: "50vh", width: "50vh" }}
-                            className="mx-auto"
-                            id='albumImage'
-                            onLoad={function () {
-                                const img = document.getElementById('albumImage');
-                                const colorThief = new ColorThief();
-                                const backgroundColor = colorThief.getPalette(img)[2]
-                                setBackgroundRGB(backgroundColor);
+                            {/* </Row> */}
+                        </Col>
+                        <Col xs={1} md={1} lg={1}></Col>
+                        <Col xs={1} md={5} lg={4} >
+                            <div className='text-left'>
+                                <img className=' pb-3 pr-3' src={spotifyLogo} alt='' width={'200px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
+                            </div>
+                            {/* <div className="p-3">hello</div> */}
+                            <img
+                                src={tracks.current[playingTrackInd].albumUrl}
+                                alt="loading"
+                                crossOrigin='anonymous'
+                                style={{ height: "50vh", width: "50vh" }}
+                                className="mx-auto"
+                                id='albumImage'
+                                onLoad={function () {
+                                    const img = document.getElementById('albumImage');
+                                    const colorThief = new ColorThief();
+                                    const backgroundColor = colorThief.getPalette(img)[2]
+                                    setBackgroundRGB(backgroundColor);
 
-                                console.log();
-                            }}
-                        />
-                        <div className={'text-' + elementColor}>
-                            <h4>{tracks.current[playingTrackInd].title}</h4>
-                        </div>
-                        <div className={'text-' + elementColor}>{tracks.current[playingTrackInd].artist}</div>
-                    </Col>
-                    {/* <Col>
+                                    console.log();
+                                }}
+                            />
+                            <div className={'text-' + elementColor}>
+                                <h4>{tracks.current[playingTrackInd].title}</h4>
+                            </div>
+                            <div className={'text-' + elementColor}>{tracks.current[playingTrackInd].artist}</div>
+                        </Col>
+                        {/* <Col>
                             <div>
                                 some text here
                             </div>
                         </Col> */}
-                    {/* <Col lg={1}></Col> */}
-                    {/* <Col lg={1}></Col> */}
-                    <Col className={"flex-column  justify-content-center align-items-left  text-center outline text-" + elementColor} lg={5} md={4} >
+                        {/* <Col lg={1}></Col> */}
+                        {/* <Col lg={1}></Col> */}
+                        <Col className={"flex-column  justify-content-center align-items-left  text-center outline text-" + elementColor} lg={5} md={4} >
 
-                        <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
-                            <Col lg={1} className="pr-0 ">
-                                {(!liked) ?
-                                    <Heart color={elementColor} size={40} className='outline' />
-                                    : <HeartFill color={elementColor} size={40} />}
-                            </Col>
+                            <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
+                                <Col lg={1} className="pr-0 ">
+                                    {(!liked) ?
+                                        <Heart color={elementColor} size={40} className='outline' />
+                                        : <HeartFill color={elementColor} size={40} />}
+                                </Col>
 
-                            <Col lg={5} className="text-left align-text-left d-flex justify-content-left">
-                                {(!liked) ?
-                                    <div className="h9 outline"> &nbsp;&nbsp; Add to Liked Songs</div>
-                                    : <div className="h9">  &nbsp;&nbsp; Remove from Liked Songs</div>}
+                                <Col lg={5} className="text-left align-text-left d-flex justify-content-left">
+                                    {(!liked) ?
+                                        <div className="h9 outline"> &nbsp;&nbsp; Add to Liked Songs</div>
+                                        : <div className="h9">  &nbsp;&nbsp; Remove from Liked Songs</div>}
 
-                            </Col>
-                            <Col lg={20}></Col>
-                        </Row>
-                        <Row ></Row>
-                        <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={openInSpotify} >
-                            <Col lg={1} className="pr-0 ">
-                                <BoxArrowInUpRight color={elementColor} size={40} />
-                            </Col>
+                                </Col>
+                                <Col lg={20}></Col>
+                            </Row>
+                            <Row ></Row>
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={openInSpotify} >
+                                <Col lg={1} className="pr-0 ">
+                                    <BoxArrowInUpRight color={elementColor} size={40} />
+                                </Col>
 
-                            <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
-                                <div className="h9">&nbsp;&nbsp;&nbsp;Open in Spotify</div>
-                            </Col>
-                            <Col lg={20}></Col>
-                        </Row>
-                        <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
-                            <Col lg={1} className="pr-0 ">
-                                {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />}
-                            </Col>
+                                <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;Open in Spotify</div>
+                                </Col>
+                                <Col lg={20}></Col>
+                            </Row>
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
+                                <Col lg={1} className="pr-0 ">
+                                    {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />}
+                                </Col>
 
-                            <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
-                                <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "Unmute" : "Mute"}</div>
-                            </Col>
-                            <Col lg={20}></Col>
-                        </Row>
-                    </Col>
-                    <Col className="fixed-end" lg={1} md={1} xs={1}> {/*float and fixed not working*/}
-                        {/* <Row className='fixed-right'> */}
+                                <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "Unmute" : "Mute"}</div>
+                                </Col>
+                                <Col lg={20}></Col>
+                            </Row>
+                        </Col>
+                        <Col className="fixed-end" lg={1} md={1} xs={1}> {/*float and fixed not working*/}
+                            {/* <Row className='fixed-right'> */}
 
-                        <CaretRight className='fixed-end' color={elementColor} size={100} onClick={nextSong} style={{ cursor: "pointer" }} />
+                            <CaretRight className='fixed-end' color={elementColor} size={100} onClick={nextSong} style={{ cursor: "pointer" }} />
 
-                        {/* </Row> */}
-                    </Col>
+                            {/* </Row> */}
+                        </Col>
 
-                </Row >
-                : <Row className='d-flex justify-content-center align-items-center'><Col className='d-flex justify-content-center align-items-center'><div className="spinner-grow text-light m-5 " role="status" style={{ width: "5rem", height: "5rem" }}>
+                    </Row >
+                    : <Row className='d-flex justify-content-center align-items-center'><Col className='d-flex justify-content-center align-items-center'><div className="spinner-grow text-light m-5 " role="status" style={{ width: "5rem", height: "5rem" }}>
 
-                </div></Col></Row>
+                    </div></Col></Row>
             }
             {/* <div className='flex-grow-1 my-2' style={{ overflowY: "auto" }}>
                 {searchResults.map((track: Track) => (
