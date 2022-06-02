@@ -196,7 +196,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([254, 234, 217]);
     var luma = 0.299 * backgroundRGB[0] + 0.587 * backgroundRGB[1] + 0.114 * backgroundRGB[2];  ///get brightness. ntsc formula
     let elementColor = (luma > 130) ? 'black' : "white";
-    let spotifyLogo = spotifyLogoWhite;
+    let spotifyLogo = (luma > 130) ? spotifyLogoBlack : spotifyLogoWhite;
     // TODO not just black or white, but a different color in the album color palette
 
 
