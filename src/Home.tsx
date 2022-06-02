@@ -370,10 +370,11 @@ export default function Home({ code, refreshToken }: HomeProps) {
     }, [playingTrackInd]);
 
     const nextSong = useCallback(() => {
-        if (playingTrackInd + 3 >= tracks.current.length - 1) { // if we are within three songs from end
+        if (playingTrackInd + 2 >= tracks.current.length - 1) { // if we are within three songs from end
             if (playingTrackInd === tracks.current.length - 1) {  // they clicked too fast and got to the last one
 
                 getRandomTrack(() => setPlayingTrackInd(prevInd => prevInd + 1));
+                getRandomTrack();
 
             }
             else {
@@ -382,7 +383,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             }
 
             getRandomTrack();
-            getRandomTrack();
+            // getRandomTrack();
             // getRandomTrack();
             // getRandomTrack();
 
