@@ -383,8 +383,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
         if (e.keyCode === 39) {
 
-            // right arrow pressed
-            // getRandomTrack();
             nextSong();
 
         }
@@ -396,7 +394,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         else if (e.keyCode === 77) { // 'm' was pressed
             muteAudio();
         }
-        // getRandomTrack();
     }, [prevSong, nextSong, muteAudio]);
 
     useEffect(() => {
@@ -415,7 +412,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
         }
         getRandomTrack();
         getRandomTrack();
-        // getRandomTrack();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken]);
 
