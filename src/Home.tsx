@@ -204,6 +204,15 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
     }
 
+    // populate genres on component mount
+    useEffect(() => {
+        const previousSearchGenres = localStorage.getItem('previousSearchGenres');
+        if (previousSearchGenres) {
+            setSearchGenres(new Set(JSON.parse(previousSearchGenres)));
+        }
+    }
+        , []);
+
 
 
 
@@ -214,6 +223,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
         setMusicPlaying(true);
 
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('previousSearchGenres', JSON.stringify(Array.from(searchGenres)));
+    }, [searchGenres]);
 
 
 
