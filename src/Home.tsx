@@ -353,7 +353,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
         if (playingTrackInd > 0) {
             setPlayingTrackInd(prevInd => prevInd - 1);
             setLiked(false);
-
+            setMuted(false);
         }
     }, [playingTrackInd]);
 
@@ -381,6 +381,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
         }
         setLiked(false);
+        setMuted(false);
     }, [getRandomTrack, playingTrackInd]);
 
 
