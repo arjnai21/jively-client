@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Stack } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -238,7 +238,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
         playingAudio?.current?.pause();
         playingAudio?.current?.remove();
         const newAudio = new Audio(tracks.current[playingTrackInd].previewUrl);
-        // newAudio.muted = true;
+        if (muted) {
+            newAudio.muted = true;
+
+        }
         const startPlayPromise = newAudio.play();
         if (startPlayPromise !== undefined) {
             startPlayPromise.then(() => {
@@ -258,7 +261,9 @@ export default function Home({ code, refreshToken }: HomeProps) {
             });
         }
         // newAudio.muted = false;
-        newAudio.loop = true;
+        // newAudio.loop = true;
+        newAudio.onended = nextSong;
+
         playingAudio.current = newAudio;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playingTrackInd]);
@@ -331,7 +336,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
         if (playingTrackInd > 0) {
             setPlayingTrackInd(prevInd => prevInd - 1);
             setLiked(false);
-            setMuted(false);
+            // setMuted(false);
         }
     }, [playingTrackInd]);
 
@@ -360,7 +365,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
         }
         setLiked(false);
-        setMuted(false);
+        // setMuted(false);
     }, [getRandomTrack, playingTrackInd]);
 
 
@@ -461,7 +466,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Col>
             </Row>
             <Row>
-                <Col className='gx-4'>
+                <Col className=' d-flex flex-wrap' style={{ gap: "0.75px" }}>
 
                     {genres.map((genre) => {
                         //@ts-ignore
