@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Container, Row, Col, Stack } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -466,7 +466,9 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Col>
             </Row>
             <Row>
-                <Col className=' d-flex flex-wrap' style={{ gap: "0.75px" }}>
+                <Col></Col>
+
+                <Col className=' d-flex flex-wrap' style={{ gap: "0.75px" }} lg={11}>
 
                     {genres.map((genre) => {
                         //@ts-ignore
@@ -493,6 +495,8 @@ export default function Home({ code, refreshToken }: HomeProps) {
                     })}
 
                 </Col>
+                <Col></Col>
+
 
             </Row>
             <Row><div className="p-1"></div></Row>
