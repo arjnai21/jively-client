@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
+import Switch from "react-switch";
+
 
 // TODO figure out why it loads so slow on first go
 
@@ -576,6 +578,20 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                                 <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
                                     <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "Unmute" : "Mute"}</div>
+                                </Col>
+                                <Col lg={20}></Col>
+                            </Row>
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
+                                <Col lg={1} className="pr-0 ">
+                                    {/* <div className='custom-control custom-switch'> </div> */}
+                                    <Switch checked={true} onChange={() => console.log()}></Switch>
+                                    {/* <input type="checkbox" className="custom-control-input" id="customSwitch1" /> */}
+                                    {/* <label className="custom-control-label" htmlFor="customSwitch1">Toggle this switch element</label></div> */}
+                                    {/* {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />} */}
+                                </Col>
+
+                                <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;{"Autoplay"}</div>
                                 </Col>
                                 <Col lg={20}></Col>
                             </Row>
