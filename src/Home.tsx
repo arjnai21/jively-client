@@ -581,7 +581,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                 </Col>
                                 <Col lg={20}></Col>
                             </Row>
-                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={switchAutoplay} >
                                 <Col lg={1} className="pr-0 ">
                                     {/* <div className='custom-control custom-switch'> </div> */}
                                     <Switch checked={true} onChange={() => console.log()}></Switch>
