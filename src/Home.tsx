@@ -379,7 +379,6 @@ export default function Home({ code, refreshToken }: HomeProps) {
     }, [getRandomTrack, playingTrackInd]);
 
     useEffect(() => {
-        console.log("using autoplay effect");
         if (playingAudio.current) {
             if (autoplay) {
                 playingAudio.current.onended = nextSong;
