@@ -46,11 +46,12 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const accessToken = useAuth(code, refreshToken);
 
 
-    // TODO maybe extrapolate all of these into some kind of state object
+    // TODO maybe extrapolate all of these into some kind of state object -> store it in localstorage?
     const [playingTrackInd, setPlayingTrackInd] = useState<number>(-1);
     const [liked, setLiked] = useState(false);
     const [muted, setMuted] = useState(false);
     const [musicPlaying, setMusicPlaying] = useState(true);
+    const [autoplay, setAutoPlay] = useState(false);
     const [searchGenres, setSearchGenres] = useState(new Set());
 
     // const [searchGenres, setSearchGenres] = useState({
@@ -264,11 +265,18 @@ export default function Home({ code, refreshToken }: HomeProps) {
         }
         // newAudio.muted = false;
         // newAudio.loop = true;
-        newAudio.onended = nextSong;
+        if (autoplay) {
+            newAudio.onended = nextSong;
+        }
+        else {
+            newAudio.loop = true;
+        }
 
         playingAudio.current = newAudio;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playingTrackInd]);
+
+
 
     const getRandomTrack = useCallback((callback?: Function) => {
 
@@ -369,6 +377,21 @@ export default function Home({ code, refreshToken }: HomeProps) {
         setLiked(false);
         // setMuted(false);
     }, [getRandomTrack, playingTrackInd]);
+
+    useEffect(() => {
+        console.log("using autoplay effect");
+        if (playingAudio.current) {
+            if (autoplay) {
+                playingAudio.current.onended = nextSong;
+                playingAudio.current.loop = false;
+            }
+            else {
+                playingAudio.current.onended = null;
+                playingAudio.current.loop = true;
+            }
+        }
+
+    }, [autoplay, nextSong]);
 
 
 
@@ -581,10 +604,10 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                 </Col>
                                 <Col lg={20}></Col>
                             </Row>
-                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={switchAutoplay} >
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
                                 <Col lg={1} className="pr-0 ">
                                     {/* <div className='custom-control custom-switch'> </div> */}
-                                    <Switch checked={true} onChange={() => console.log()}></Switch>
+                                    <Switch checked={autoplay} onChange={() => console.log()}></Switch>
                                     {/* <input type="checkbox" className="custom-control-input" id="customSwitch1" /> */}
                                     {/* <label className="custom-control-label" htmlFor="customSwitch1">Toggle this switch element</label></div> */}
                                     {/* {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />} */}
