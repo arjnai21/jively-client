@@ -14,7 +14,8 @@ export default function useAuth(code: string | null, existingRefreshToken: strin
     useEffect(() => {
         if (!code) return;
         axios.post(process.env.REACT_APP_SERVER + "/login", {
-            code,
+            code: code,
+            redirectUri: process.env.REACT_APP_REDIRECT_URI
         }).then(res => {
             // res.data.expiresIn = 70;
             window.history.pushState({}, "", "/");
@@ -35,7 +36,8 @@ export default function useAuth(code: string | null, existingRefreshToken: strin
         }
         const interval = setInterval(() => {
             axios.post(process.env.REACT_APP_SERVER + "/refresh", {
-                refreshToken,
+                refreshToken: refreshToken,
+                redirectUri: process.env.REACT_APP_REDIRECT_URI
             }).then(res => {
                 // res.data.expiresIn = 70;
                 setAccessToken(res.data.accessToken);

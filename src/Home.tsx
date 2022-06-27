@@ -8,12 +8,13 @@ import Switch from "react-switch";
 // TODO figure out why it loads so slow on first go
 
 // also make some cool animation or somethin
-import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, VolumeMute, VolumeUp } from "react-bootstrap-icons";
+import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, PlusCircle, PlusCircleDotted, VolumeMute, VolumeUp } from "react-bootstrap-icons";
 //@ts-ignore
 import ColorThief from "colorthief";
 
 const spotifyLogoWhite = require('./assets/Spotify_Logo_RGB_White.png');
 const spotifyLogoBlack = require('./assets/Spotify_Logo_RGB_Black.png');
+
 // const logo = require('./assets/jively_logo.png')
 
 
@@ -42,6 +43,20 @@ export interface Track {
     id: string,
 }
 
+export interface Playlist {
+    name: string,
+    uri: string,
+    imageUrl: string,
+    link: string,
+    id: string,
+    selected: boolean,
+}
+
+export interface SpotifyUser {
+    displayName?: string,
+    id: string,
+}
+
 export default function Home({ code, refreshToken }: HomeProps) {
     const accessToken = useAuth(code, refreshToken);
 
@@ -54,139 +69,12 @@ export default function Home({ code, refreshToken }: HomeProps) {
     const [autoplay, setAutoPlay] = useState(false);
     const [searchGenres, setSearchGenres] = useState(new Set());
 
-    // const [searchGenres, setSearchGenres] = useState({
-    //     "acoustic": false,
-    //     "afrobeat": false,
-    //     "alt-rock": false,
-    //     "alternative": false,
-    //     "ambient": false,
-    //     "anime": false,
-    //     "black-metal": false,
-    //     "bluegrass": false,
-    //     "blues": false,
-    //     "bossanova": false,
-    //     "brazil": false,
-    //     "breakbeat": false,
-    //     "british": false,
-    //     "cantopop": false,
-    //     "chicago-house": false,
-    //     "children": false,
-    //     "chill": false,
-    //     "classical": false,
-    //     "club": false,
-    //     "comedy": false,
-    //     "country": false,
-    //     "dance": false,
-    //     "dancehall": false,
-    //     "death-metal": false,
-    //     "deep-house": false,
-    //     "detroit-techno": false,
-    //     "disco": false,
-    //     "disney": false,
-    //     "drum-and-bass": false,
-    //     "dub": false,
-    //     "dubstep": false,
-    //     "edm": false,
-    //     "electro": false,
-    //     "electronic": false,
-    //     "emo": false,
-    //     "folk": false,
-    //     "forro": false,
-    //     "french": false,
-    //     "funk": false,
-    //     "garage": false,
-    //     "german": false,
-    //     "gospel": false,
-    //     "goth": false,
-    //     "grindcore": false,
-    //     "groove": false,
-    //     "grunge": false,
-    //     "guitar": false,
-    //     "happy": false,
-    //     "hard-rock": false,
-    //     "hardcore": false,
-    //     "hardstyle": false,
-    //     "heavy-metal": false,
-    //     "hip-hop": false,
-    //     "holidays": false,
-    //     "honky-tonk": false,
-    //     "house": false,
-    //     "idm": false,
-    //     "indian": false,
-    //     "indie": false,
-    //     "indie-pop": false,
-    //     "industrial": false,
-    //     "iranian": false,
-    //     "j-dance": false,
-    //     "j-idol": false,
-    //     "j-pop": false,
-    //     "j-rock": false,
-    //     "jazz": false,
-    //     "k-pop": false,
-    //     "kids": false,
-    //     "latin": false,
-    //     "latino": false,
-    //     "malay": false,
-    //     "mandopop": false,
-    //     "metal": false,
-    //     "metal-misc": false,
-    //     "metalcore": false,
-    //     "minimal-techno": false,
-    //     "movies": false,
-    //     "mpb": false,
-    //     "new-age": false,
-    //     "new-release": false,
-    //     "opera": false,
-    //     "pagode": false,
-    //     "party": false,
-    //     "philippines-opm": false,
-    //     "piano": false,
-    //     "pop": false,
-    //     "pop-film": false,
-    //     "post-dubstep": false,
-    //     "power-pop": false,
-    //     "progressive-house": false,
-    //     "psych-rock": false,
-    //     "punk": false,
-    //     "punk-rock": false,
-    //     "r-n-b": false,
-    //     "rainy-day": false,
-    //     "reggae": false,
-    //     "reggaeton": false,
-    //     "road-trip": false,
-    //     "rock": false,
-    //     "rock-n-roll": false,
-    //     "rockabilly": false,
-    //     "romance": false,
-    //     "sad": false,
-    //     "salsa": false,
-    //     "samba": false,
-    //     "sertanejo": false,
-    //     "show-tunes": false,
-    //     "singer-songwriter": false,
-    //     "ska": false,
-    //     "sleep": false,
-    //     "songwriter": false,
-    //     "soul": false,
-    //     "soundtracks": false,
-    //     "spanish": false,
-    //     "study": false,
-    //     "summer": false,
-    //     "swedish": false,
-    //     "synth-pop": false,
-    //     "tango": false,
-    //     "techno": false,
-    //     "trance": false,
-    //     "trip-hop": false,
-    //     "turkish": false,
-    //     "work-out": false,
-    //     "world-music": false
-    // });
-
-
     const playingAudio = useRef<HTMLAudioElement>();
     const tracks = useRef<Array<Track>>([]);
     const trackTitleSet = useRef<Set<string>>(new Set());
+    const playlists = useRef<Array<Playlist>>([]);
+    const user = useRef<SpotifyUser>();
+
 
 
     const [backgroundRGB, setBackgroundRGB] = useState<Array<number>>([254, 234, 217]);
@@ -196,14 +84,15 @@ export default function Home({ code, refreshToken }: HomeProps) {
     // TODO not just black or white, but a different color in the album color palette
 
 
-    // populate genres on component mount
+    // populate genres and playlists on component mount
     useEffect(() => {
         const previousSearchGenres = localStorage.getItem('previousSearchGenres');
         if (previousSearchGenres) {
             setSearchGenres(new Set(JSON.parse(previousSearchGenres)));
         }
-    }
-        , []);
+    }, []);
+
+
 
 
 
@@ -441,6 +330,46 @@ export default function Home({ code, refreshToken }: HomeProps) {
         }
         getRandomTrack();
         getRandomTrack();
+
+        spotifyApi.getMe().then((userResp) => {
+            user.current = {
+                id: userResp.body.id,
+                displayName: userResp.body.display_name
+            }
+
+            playlists.current.length = 0;
+
+            // get playlists 50 at a time. if there's more than 200, idc
+            // TODO this is an awful way to do this
+            for (let i = 0; i < 4; i++) {
+                spotifyApi.getUserPlaylists({
+                    limit: 50,
+                    offset: i * 50
+                }).then((playlistsResp) => {
+                    playlistsResp.body.items.forEach((playlist) => {
+                        if (playlist.owner.id !== userResp.body.id) {
+                            return;
+                        }
+                        playlists.current.push({
+                            name: playlist.name,
+                            uri: playlist.uri,
+                            imageUrl: playlist.images[0]?.url,
+                            link: playlist.external_urls.spotify,
+                            id: playlist.id,
+                            selected: false,
+
+                        });
+                    });
+                });
+
+            }
+
+
+        });
+
+
+
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accessToken]);
 
@@ -455,6 +384,77 @@ export default function Home({ code, refreshToken }: HomeProps) {
             setLiked(false);
         })
     }, [playingTrackInd]);
+
+    const addSongToPlaylists = useCallback(() => {
+        playlists.current.forEach((playlist) => {
+            if (!playlist.selected) return;
+            spotifyApi.addTracksToPlaylist(playlist.id, [tracks.current[playingTrackInd].uri]).then(() => {
+                // console.log("added tracks");
+            });
+        });
+    }, [playingTrackInd]);
+
+    // spotifyApi.getUserPlaylists().then((playlists) => {
+    //     console.log(playlists);
+    // });
+
+    // spotifyApi.playli
+    // const togglePlayListModal = useCallback(() => {
+    //     // let modal = new Modal(document.getElementById("playlistModal"));
+    //     // document.getElementById("playlistModal")
+    //     $("playlistModal").
+
+    // }, []);
+
+    function openModal() {
+        const backdrop = document.getElementById("backdrop");
+        const playlistModal = document.getElementById("playlistModal");
+        if (backdrop) {
+            backdrop.style.display = "block"
+
+        }
+        if (playlistModal) {
+            playlistModal.style.display = "block"
+            playlistModal.classList.add("show")
+        }
+
+    }
+    function closeModal() {
+        const backdrop = document.getElementById("backdrop");
+        const playlistModal = document.getElementById("playlistModal");
+        if (backdrop) {
+            backdrop.style.display = "none"
+
+        }
+        if (playlistModal) {
+            playlistModal.style.display = "none"
+            playlistModal.classList.remove("show")
+        }
+
+
+    }
+
+    function togglePlaylistModal() {
+        const playlistModal = document.getElementById("playlistModal");
+        if (playlistModal) {
+            if (playlistModal.style.display === "none") {
+                openModal();
+            }
+            else {
+                closeModal();
+            }
+        }
+    }
+    // Get the modal
+    var modal = document.getElementById('playlistModal');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            closeModal()
+        }
+    }
+
 
     // TODO this uses absolutely horrendous bootstrap styling. somebody please learn bootstrap and redo this whole thing
     return (
@@ -603,6 +603,16 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                 </Col>
                                 <Col lg={20}></Col>
                             </Row>
+                            <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={togglePlaylistModal} >
+                                <Col lg={1} className="pr-0 ">
+                                    {< PlusCircleDotted color={elementColor} size={40} />}
+                                </Col>
+
+                                <Col lg={4} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">Add to playlist</div>
+                                </Col>
+                                <Col lg={20}></Col>
+                            </Row>
                             <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
                                 <Col lg={1} className="pr-0 ">
                                     {/* <div className='custom-control custom-switch'> </div> */}
@@ -617,6 +627,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                 </Col>
                                 <Col lg={20}></Col>
                             </Row>
+
                         </Col>
                         <Col className="fixed-end" lg={1} md={1} xs={1}> {/*float and fixed not working*/}
                             {/* <Row className='fixed-right'> */}
@@ -647,6 +658,52 @@ export default function Home({ code, refreshToken }: HomeProps) {
                     <TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
                 ))}
             </div> */}
+            {/* <!-- Modal --> */}
+            {/* <button type="button" className="btn btn-primary" onClick='openModal()'>
+                Launch demo modal
+            </button> */}
+            <div className="modal fade" id="playlistModal" tabIndex={-1} aria-labelledby="ModalLabel" aria-modal="true"
+                role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Add to playlist</h5>
+                            {/* <button type="button" className="close" aria-label="Close" onClick={closeModal}>
+                                <span aria-hidden="true">×</span>
+                            </button> */}
+                        </div>
+                        <div className="modal-body">
+                            {playlists.current.map((playlist) => {
+                                return <div key={playlist.id}>
+                                    <input className="form-check-input p2" type="checkbox" value="" id="flexCheckDefault" onClick={() => {
+                                        playlist.selected = !playlist.selected;
+                                        // console.log(playlists.current);
+
+                                    }} />
+                                    {playlist.name}
+                                </div>
+
+                            })}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn" onClick={() => {
+                                closeModal();
+                                // reset playlist selections
+                                playlists.current.forEach((playlist) => playlist.selected = false);
+                                document.querySelectorAll('input[type="checkbox"]')
+                                    //@ts-ignore
+                                    .forEach(el => el.checked = false);
+
+                            }}>Close</button>
+                            <button type="button" className="btn btn-primary" onClick={() => {
+                                closeModal();
+                                addSongToPlaylists();
+                            }}>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="modal-backdrop fade show" id="backdrop" style={{ display: "none" }}></div>
         </Container >
     );
 }
