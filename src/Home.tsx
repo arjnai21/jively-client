@@ -488,7 +488,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Row>}
                 <Row >
                     <Col></Col>
-                    <Col sm={1} md={1} lg={1} xs={1} className="pb-2">
+                    <Col sm={1} md={1} lg={1} xs={1} className="pb-1">
                         <Button className='btn-primary btn-sm' onClick={() => {
                             window.localStorage.removeItem("refreshToken");
                             window.location.href = "/";
@@ -577,8 +577,8 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
                                     <Col xs={9} sm={9} lg={9} className="text-left align-text-left d-flex justify-content-left">
                                         {(!liked) ?
-                                            <div className="h9 outline"> &nbsp;&nbsp; Add to Liked Songs</div>
-                                            : <div className="h9">  &nbsp;&nbsp; Remove from Liked Songs</div>}
+                                            <div className="h9 outline"> &nbsp;&nbsp; add to liked songs</div>
+                                            : <div className="h9">  &nbsp;&nbsp; remove from liked songs</div>}
 
                                     </Col>
                                 </Row>
@@ -588,7 +588,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     </Col>
 
                                     <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;Open in Spotify</div>
+                                        <div className="h9">&nbsp;&nbsp;&nbsp;open in spotify</div>
                                     </Col>
                                 </Row>
                                 <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
@@ -597,7 +597,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     </Col>
 
                                     <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "Unmute" : "Mute"}</div>
+                                        <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "unmute" : "mute"}</div>
                                     </Col>
                                 </Row>
                                 <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={togglePlaylistModal} >
@@ -606,7 +606,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     </Col>
 
                                     <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;Add to playlist</div>
+                                        <div className="h9">&nbsp;&nbsp;&nbsp;add to playlist</div>
                                     </Col>
                                 </Row>
                                 <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
@@ -619,7 +619,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     </Col>
 
                                     <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;{"Autoplay"}</div>
+                                        <div className="h9">&nbsp;&nbsp;&nbsp;{"autoplay"}</div>
                                     </Col>
                                 </Row>
 
