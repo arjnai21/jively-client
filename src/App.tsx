@@ -9,7 +9,7 @@ function App() {
 
     return (
 
-        (code || refreshToken) ? <Home code={code} refreshToken={refreshToken} ></Home> : <Login />
+        (code || refreshToken) ? <Home code={code} refreshToken={refreshToken}  ></Home> : <Login />
     );
 }
 
