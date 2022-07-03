@@ -652,7 +652,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                             <div className="modal-body">
                                 {playlists.current.map((playlist) => {
                                     return <div key={playlist.id}>
-                                        <input className="form-check-input p2" type="checkbox" value="" id="flexCheckDefault" onClick={() => {
+                                        <input className="form-check-input m-1" type="checkbox" value="" id="flexCheckDefault" onClick={() => {
                                             playlist.selected = !playlist.selected;
                                             // console.log(playlists.current);
 
