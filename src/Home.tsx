@@ -488,7 +488,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                 </Row>}
                 <Row >
                     <Col></Col>
-                    <Col sm={1} md={1} lg={1} xs={1} className="pb-1">
+                    <Col sm={1} md={1} lg={1} xs={1} className="p-2">
                         <Button className='btn-primary btn-sm' onClick={() => {
                             window.localStorage.removeItem("refreshToken");
                             window.location.href = "/";
