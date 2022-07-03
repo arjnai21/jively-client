@@ -596,7 +596,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                                     </Col>
 
                                     <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">Add to playlist</div>
+                                        <div className="h9">&nbsp;&nbsp;&nbsp;Add to playlist</div>
                                     </Col>
                                 </Row>
                                 <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
