@@ -459,241 +459,239 @@ export default function Home({ code, refreshToken }: HomeProps) {
     // TODO this uses absolutely horrendous bootstrap styling. somebody please learn bootstrap and redo this whole thing
     return (
         <Container fluid className="d-flex flex-column py-2 justify-content-center align-items-left" style={{ maxHeight: "auto", minHeight: "100vh", backgroundColor: 'rgb(' + backgroundRGB.join(',') + ')', }} onKeyUp={handleKeyUp}>
-            <Container className='' >
-                {/* <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={(e => setSearch(e.target.value))}
+            {/* <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={(e => setSearch(e.target.value))}
             /> */}
-                {/* <Row className="  ml-100">
+            {/* <Row className="  ml-100">
                 <Col className=" ml-100 ">
                     <h5 className="display-1  ml-100  fixed-top" style={{ fontSize: 30, color: "black" }}>Jively.</h5>
 
                 </Col>
 
             </Row> */}
-                {/* TODO figure out where to put this logo and make a png for it */}
-                {/* <Row className='fixed-top m40 p-20'>
+            {/* TODO figure out where to put this logo and make a png for it */}
+            {/* <Row className='fixed-top m40 p-20'>
                 <Col md={12} lg={12} className="d-flex justify-content-left align-items-left">
                     <img src={logo} alt="" width="100px" />
                 </Col>
             </Row> */}
 
-                {(!musicPlaying) && <Row className='fixed-top m40 p-20'>
-                    <Col className='p-20'>
-                        <div id="alert" className="alert alert-info alert-dismissible fade show float-top p-20" role="alert">
-                            <strong>Music not playing?</strong> Tap anywhere to begin.
-                            {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            {(!musicPlaying) && <Row className='fixed-top m40 p-20'>
+                <Col className='p-20'>
+                    <div id="alert" className="alert alert-info alert-dismissible fade show float-top p-20" role="alert">
+                        <strong>Music not playing?</strong> Tap anywhere to begin.
+                        {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> */}
-                        </div>
-                    </Col>
-                </Row>}
-                <Row >
-                    <Col></Col>
-                    <Col sm={1} md={1} lg={1} xs={1} className="p-2">
-                        <Button className='btn-primary btn-sm' onClick={() => {
-                            window.localStorage.removeItem("refreshToken");
-                            window.location.href = "/";
-                        }}>log out</Button>
+                    </div>
+                </Col>
+            </Row>}
+            <Row >
+                <Col></Col>
+                <Col sm={1} md={1} lg={1} xs={1} className="p-2">
+                    <Button className='btn-primary btn-sm' onClick={() => {
+                        window.localStorage.removeItem("refreshToken");
+                        window.location.href = "/";
+                    }}>log out</Button>
 
-                    </Col>
-                    <Col sm={.5} md={.5} lg={.5} xs={.5}></Col>
-
-
-                </Row>
-                <Row className='justify-content-center'>
-
-                    <Col sm={11} lg={11} md={11} className='d-flex flex-wrap' >
-
-                        {genres.map((genre) => {
-                            //@ts-ignore
-                            return <label className={"btn btn-sm btn-" + ((!searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
-                                setSearchGenres((prevGenres) => {
-                                    if (!prevGenres.delete(genre)) {
-                                        prevGenres.add(genre);
-
-                                    }
-
-                                    // when the genres change, we have to remove everything after the current playing index, then get some more tracks
-                                    tracks.current.length = playingTrackInd + 1;
-                                    getRandomTrack();
-                                    getRandomTrack();
-                                    return new Set(prevGenres);
-                                    // this feels inefficient
-                                    // const newGenres = {...prevGenres}
-                                    // //@ts-ignore
-                                    // newGenres[key] = !prevGenres[key]
-                                    // return newGenres;
-                                });
-                            }} key={genre}>{genre}</label>
-
-                        })}
-
-                    </Col>
-                </Row>
-                {
-                    (tracks.current.length > 0 && playingTrackInd >= 0) ?
-                        <Row className="d-flex justify-content-center align-items-center">
-                            <Col xs={2} sm={2} md={1} lg={1}> {/*float not working*/}
-                                {/* <Row> */}
-                                <CaretLeft className='pb-100' color={elementColor} size={50} onClick={prevSong} style={{ cursor: "pointer" }} fill={elementColor} />
-
-                                {/* </Row> */}
-                            </Col>
-                            <Col xs={8} sm={8} md={7} lg={5} >
-                                <div className='text-left'>
-                                    <img className='d-block mx-auto py-3' src={spotifyLogo} alt='' width={'150px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
-                                </div>
-                                <img
-                                    src={tracks.current[playingTrackInd].albumUrl}
-                                    alt="loading"
-                                    crossOrigin='anonymous'
-                                    className="d-block mx-auto img-fluid "
-                                    id='albumImage'
-                                    onLoad={function () {
-                                        const img = document.getElementById('albumImage');
-                                        const colorThief = new ColorThief();
-                                        const backgroundColor = colorThief.getPalette(img)[2]
-                                        setBackgroundRGB(backgroundColor);
-                                    }}
-                                />
-                                <div className={'text-' + elementColor}>
-                                    <h4 className='text-center'>{tracks.current[playingTrackInd].title}</h4>
-                                </div>
-                                <div className={`text-${elementColor} text-center`}>
-                                    {tracks.current[playingTrackInd].artist}
-                                </div>
-                            </Col>
-
-                            <Col xs={2} sm={2} md={1} lg={1} className="p-0 m-0">
-                                <CaretRight color={elementColor} className="p-0 m-0" size={50} onClick={nextSong} style={{ cursor: "pointer" }} />
-                            </Col>
+                </Col>
+                <Col sm={.5} md={.5} lg={.5} xs={.5}></Col>
 
 
-                            <Col className={" py-5 text-center outline text-" + elementColor} xs={11} sm={11} lg={3} md={4}  >
+            </Row>
+            <Row className='justify-content-center'>
 
-                                <Row className="pb-5 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
-                                    <Col xs={3} sm={3} lg={3} className="pr-0 ">
-                                        {(!liked) ?
-                                            <Heart color={elementColor} size={40} className='outline' />
-                                            : <HeartFill color={elementColor} size={40} />}
-                                    </Col>
+                <Col sm={11} lg={11} md={11} className='d-flex flex-wrap' >
 
-                                    <Col xs={9} sm={9} lg={9} className="text-left align-text-left d-flex justify-content-left">
-                                        {(!liked) ?
-                                            <div className="h9 outline"> &nbsp;&nbsp; add to liked songs</div>
-                                            : <div className="h9">  &nbsp;&nbsp; remove from liked songs</div>}
+                    {genres.map((genre) => {
+                        //@ts-ignore
+                        return <label className={"btn btn-sm btn-" + ((!searchGenres.has(genre)) ? 'dark' : 'light')} style={{ fontSize: "10px" }} onClick={() => {
+                            setSearchGenres((prevGenres) => {
+                                if (!prevGenres.delete(genre)) {
+                                    prevGenres.add(genre);
 
-                                    </Col>
-                                </Row>
-                                <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={openInSpotify} >
-                                    <Col xs={3} sm={3} lg={3} className="pr-0 ">
-                                        <BoxArrowInUpRight color={elementColor} size={40} />
-                                    </Col>
+                                }
 
-                                    <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;open in spotify</div>
-                                    </Col>
-                                </Row>
-                                <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
-                                    <Col xs={3} sm={3} lg={3} className="pr-0 ">
-                                        {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />}
-                                    </Col>
+                                // when the genres change, we have to remove everything after the current playing index, then get some more tracks
+                                tracks.current.length = playingTrackInd + 1;
+                                getRandomTrack();
+                                getRandomTrack();
+                                return new Set(prevGenres);
+                                // this feels inefficient
+                                // const newGenres = {...prevGenres}
+                                // //@ts-ignore
+                                // newGenres[key] = !prevGenres[key]
+                                // return newGenres;
+                            });
+                        }} key={genre}>{genre}</label>
 
-                                    <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "unmute" : "mute"}</div>
-                                    </Col>
-                                </Row>
-                                <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={togglePlaylistModal} >
-                                    <Col xs={3} sm={3} lg={3} className="pr-0 ">
-                                        {< PlusCircleDotted color={elementColor} size={40} />}
-                                    </Col>
+                    })}
 
-                                    <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;add to playlist</div>
-                                    </Col>
-                                </Row>
-                                <Row className="pb-5 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
-                                    <Col xs={3} sm={3} lg={3} className="pr-0 ">
-                                        {/* <div className='custom-control custom-switch'> </div> */}
-                                        <Switch checked={autoplay} onChange={() => console.log()}></Switch>
-                                        {/* <input type="checkbox" className="custom-control-input" id="customSwitch1" /> */}
-                                        {/* <label className="custom-control-label" htmlFor="customSwitch1">Toggle this switch element</label></div> */}
-                                        {/* {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />} */}
-                                    </Col>
+                </Col>
+            </Row>
+            {
+                (tracks.current.length > 0 && playingTrackInd >= 0) ?
+                    <Row className="d-flex justify-content-center align-items-center p-5">
+                        <Col xs={2} sm={2} md={1} lg={1}> {/*float not working*/}
+                            {/* <Row> */}
+                            <CaretLeft className='pb-100' color={elementColor} size={50} onClick={prevSong} style={{ cursor: "pointer" }} fill={elementColor} />
 
-                                    <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
-                                        <div className="h9">&nbsp;&nbsp;&nbsp;{"autoplay"}</div>
-                                    </Col>
-                                </Row>
+                            {/* </Row> */}
+                        </Col>
+                        <Col xs={8} sm={8} md={7} lg={5} >
+                            <div className='text-left'>
+                                <img className='d-block mx-auto py-3' src={spotifyLogo} alt='' width={'150px'} onClick={() => window.open('https://open.spotify.com')} style={{ cursor: "pointer" }}></img>
+                            </div>
+                            <img
+                                src={tracks.current[playingTrackInd].albumUrl}
+                                alt="loading"
+                                crossOrigin='anonymous'
+                                className="d-block mx-auto img-fluid "
+                                id='albumImage'
+                                onLoad={function () {
+                                    const img = document.getElementById('albumImage');
+                                    const colorThief = new ColorThief();
+                                    const backgroundColor = colorThief.getPalette(img)[2]
+                                    setBackgroundRGB(backgroundColor);
+                                }}
+                            />
+                            <div className={'text-' + elementColor}>
+                                <h4 className='text-center'>{tracks.current[playingTrackInd].title}</h4>
+                            </div>
+                            <div className={`text-${elementColor} text-center`}>
+                                {tracks.current[playingTrackInd].artist}
+                            </div>
+                        </Col>
 
-                            </Col>
-                        </Row >
-                        : <Row className='d-flex justify-content-center align-items-center'><Col className='d-flex justify-content-center align-items-center'><div className="spinner-grow text-light m-5 " role="status" style={{ width: "5rem", height: "5rem" }}>
+                        <Col xs={2} sm={2} md={1} lg={1} className="p-0 m-0">
+                            <CaretRight color={elementColor} className="p-0 m-0" size={50} onClick={nextSong} style={{ cursor: "pointer" }} />
+                        </Col>
 
-                        </div></Col></Row>
-                }
-                <Row className='fixed-bottom pb-2'>
-                    <Col className='d-flex justify-content-center align-items-center'>
-                        <div className={"text-" + elementColor}  >
-                            <strong>Feedback?</strong> Email me at <a href="mailto:arjun@jively.app" className={'link-' + ((elementColor === "black") ? "dark" : "light")}>arjun@jively.app</a>.
-                            {/* <strong>Feedback?</strong> Email me at arjun@jively.app. */}
-                            {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+
+                        <Col className={" py-5 text-center outline text-" + elementColor} xs={11} sm={11} lg={3} md={4}  >
+
+                            <Row className="pb-4 no-gutters align-items-center text-left justify-content-left  " onClick={(!liked) ? likeSong : unLikeSong} style={{ cursor: "pointer" }} >
+                                <Col xs={3} sm={3} lg={3} className="pr-0 ">
+                                    {(!liked) ?
+                                        <Heart color={elementColor} size={40} className='outline' />
+                                        : <HeartFill color={elementColor} size={40} />}
+                                </Col>
+
+                                <Col xs={9} sm={9} lg={9} className="text-left align-text-left d-flex justify-content-left">
+                                    {(!liked) ?
+                                        <div className="h9 outline"> &nbsp;&nbsp; add to liked songs</div>
+                                        : <div className="h9">  &nbsp;&nbsp; remove from liked songs</div>}
+
+                                </Col>
+                            </Row>
+                            <Row className="pb-4 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={openInSpotify} >
+                                <Col xs={3} sm={3} lg={3} className="pr-0 ">
+                                    <BoxArrowInUpRight color={elementColor} size={40} />
+                                </Col>
+
+                                <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;open in spotify</div>
+                                </Col>
+                            </Row>
+                            <Row className="pb-4 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={muteAudio} >
+                                <Col xs={3} sm={3} lg={3} className="pr-0 ">
+                                    {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />}
+                                </Col>
+
+                                <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;{(muted) ? "unmute" : "mute"}</div>
+                                </Col>
+                            </Row>
+                            <Row className="pb-4 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={togglePlaylistModal} >
+                                <Col xs={3} sm={3} lg={3} className="pr-0 ">
+                                    {< PlusCircleDotted color={elementColor} size={40} />}
+                                </Col>
+
+                                <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;add to playlist</div>
+                                </Col>
+                            </Row>
+                            <Row className="pb-4 no-gutters align-items-center text-left d-flex justify-content-left " style={{ cursor: "pointer" }} onClick={() => setAutoPlay((prevAutoPlay: boolean) => !prevAutoPlay)} >
+                                <Col xs={3} sm={3} lg={3} className="pr-0 ">
+                                    {/* <div className='custom-control custom-switch'> </div> */}
+                                    <Switch checked={autoplay} onChange={() => console.log()}></Switch>
+                                    {/* <input type="checkbox" className="custom-control-input" id="customSwitch1" /> */}
+                                    {/* <label className="custom-control-label" htmlFor="customSwitch1">Toggle this switch element</label></div> */}
+                                    {/* {(!muted) ? < VolumeUp color={elementColor} size={40} /> : <VolumeMute color={elementColor} size={40} />} */}
+                                </Col>
+
+                                <Col xs={9} sm={9} lg={9} className="ml-0 text-left d-flex justify-content-left">
+                                    <div className="h9">&nbsp;&nbsp;&nbsp;{"autoplay"}</div>
+                                </Col>
+                            </Row>
+
+                        </Col>
+                    </Row >
+                    : <Row className='d-flex justify-content-center align-items-center'><Col className='d-flex justify-content-center align-items-center'><div className="spinner-grow text-light m-5 " role="status" style={{ width: "5rem", height: "5rem" }}>
+
+                    </div></Col></Row>
+            }
+            <Row className='fixed-bottom pb-2'>
+                <Col className='d-flex justify-content-center align-items-center'>
+                    <div className={"text-" + elementColor}  >
+                        <strong>Feedback?</strong> Email me at <a href="mailto:arjun@jively.app" className={'link-' + ((elementColor === "black") ? "dark" : "light")}>arjun@jively.app</a>.
+                        {/* <strong>Feedback?</strong> Email me at arjun@jively.app. */}
+                        {/* <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> */}
-                        </div>
-                    </Col>
-                </Row>
-                {/* <div className='flex-grow-1 my-2' style={{ overflowY: "auto" }}>
+                    </div>
+                </Col>
+            </Row>
+            {/* <div className='flex-grow-1 my-2' style={{ overflowY: "auto" }}>
                 {searchResults.map((track: Track) => (
                     <TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
                 ))}
             </div> */}
-                {/* <!-- Modal --> */}
-                {/* <button type="button" className="btn btn-primary" onClick='openModal()'>
+            {/* <!-- Modal --> */}
+            {/* <button type="button" className="btn btn-primary" onClick='openModal()'>
                 Launch demo modal
             </button> */}
-                <div className="modal fade" id="playlistModal" tabIndex={-1} aria-labelledby="ModalLabel" aria-modal="true"
-                    role="dialog">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Add to playlist</h5>
-                                {/* <button type="button" className="close" aria-label="Close" onClick={closeModal}>
+            <div className="modal fade" id="playlistModal" tabIndex={-1} aria-labelledby="ModalLabel" aria-modal="true"
+                role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Add to playlist</h5>
+                            {/* <button type="button" className="close" aria-label="Close" onClick={closeModal}>
                                 <span aria-hidden="true">×</span>
                             </button> */}
-                            </div>
-                            <div className="modal-body">
-                                {playlists.current.map((playlist) => {
-                                    return <div key={playlist.id}>
-                                        <input className="form-check-input m-1" type="checkbox" value="" id="flexCheckDefault" onClick={() => {
-                                            playlist.selected = !playlist.selected;
-                                            // console.log(playlists.current);
+                        </div>
+                        <div className="modal-body">
+                            {playlists.current.map((playlist) => {
+                                return <div key={playlist.id}>
+                                    <input className="form-check-input m-1" type="checkbox" value="" id="flexCheckDefault" onClick={() => {
+                                        playlist.selected = !playlist.selected;
+                                        // console.log(playlists.current);
 
-                                        }} />
-                                        {playlist.name}
-                                    </div>
+                                    }} />
+                                    {playlist.name}
+                                </div>
 
-                                })}
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn" onClick={() => {
-                                    closeModal();
-                                    // reset playlist selections
-                                    playlists.current.forEach((playlist) => playlist.selected = false);
-                                    document.querySelectorAll('input[type="checkbox"]')
-                                        //@ts-ignore
-                                        .forEach(el => el.checked = false);
+                            })}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn" onClick={() => {
+                                closeModal();
+                                // reset playlist selections
+                                playlists.current.forEach((playlist) => playlist.selected = false);
+                                document.querySelectorAll('input[type="checkbox"]')
+                                    //@ts-ignore
+                                    .forEach(el => el.checked = false);
 
-                                }}>Close</button>
-                                <button type="button" className="btn btn-primary" onClick={() => {
-                                    closeModal();
-                                    addSongToPlaylists();
-                                }}>Add</button>
-                            </div>
+                            }}>Close</button>
+                            <button type="button" className="btn btn-primary" onClick={() => {
+                                closeModal();
+                                addSongToPlaylists();
+                            }}>Add</button>
                         </div>
                     </div>
                 </div>
-                <div className="modal-backdrop fade show" id="backdrop" style={{ display: "none" }}></div>
-            </Container>
+            </div>
+            <div className="modal-backdrop fade show" id="backdrop" style={{ display: "none" }}></div>
 
         </Container >
     );
