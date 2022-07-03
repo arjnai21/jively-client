@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import useAuth from './useAuth';
 import SpotifyWebApi from "spotify-web-api-node";
 import Switch from "react-switch";
@@ -8,7 +8,7 @@ import Switch from "react-switch";
 // TODO figure out why it loads so slow on first go
 
 // also make some cool animation or somethin
-import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, PlusCircle, PlusCircleDotted, VolumeMute, VolumeUp } from "react-bootstrap-icons";
+import { BoxArrowInUpRight, CaretLeft, CaretRight, Heart, HeartFill, PlusCircleDotted, VolumeMute, VolumeUp } from "react-bootstrap-icons";
 //@ts-ignore
 import ColorThief from "colorthief";
 
@@ -486,7 +486,17 @@ export default function Home({ code, refreshToken }: HomeProps) {
                         </div>
                     </Col>
                 </Row>}
-                <Row><br></br></Row>
+                <Row >
+                    <Col></Col>
+                    <Col sm={1} md={1} lg={1} xs={1} className="pb-2">
+                        <Button className='btn-primary btn-sm' onClick={() => {
+                            window.localStorage.removeItem("refreshToken");
+                            window.location.href = "/";
+                        }}>log out</Button>
+
+                    </Col>
+
+                </Row>
                 <Row className='justify-content-center'>
 
                     <Col sm={11} lg={11} md={11} className='d-flex flex-wrap' >

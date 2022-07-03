@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 
 
-const AUTH_URL = "https://accounts.spotify.com/authorize?client_id=ceb94033180d45b781fb17de6036b363&response_type=code&redirect_uri=" + process.env.REACT_APP_REDIRECT_URI + "&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-read-recently-played%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private"
+const AUTH_URL = "https://accounts.spotify.com/authorize?client_id=ceb94033180d45b781fb17de6036b363&response_type=code&redirect_uri=" + process.env.REACT_APP_REDIRECT_URI + "&scope=%20user-library-read%20user-library-modify%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private"
 
 const logo = require('./assets/jively_logo.png')
 

@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
 root.render(
     // <App />
     // TODO maybe make the color of the logo a lil darker
-    <div style={{ backgroundColor: "#feead9", overflow: "hidden", }}>
+    <div style={{ backgroundColor: "#feead9" }}>
         <App />
     </div >
 );
