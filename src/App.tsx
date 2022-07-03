@@ -5,6 +5,7 @@ import Home from "./Home";
 
 const code = new URLSearchParams(window.location.search).get('code');
 const refreshToken = localStorage.getItem('refreshToken');
+console.log("code in the app file is running")
 function App() {
 
     return (

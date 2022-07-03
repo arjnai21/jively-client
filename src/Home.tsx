@@ -495,6 +495,8 @@ export default function Home({ code, refreshToken }: HomeProps) {
                         }}>log out</Button>
 
                     </Col>
+                    <Col sm={.5} md={.5} lg={.5} xs={.5}></Col>
+
 
                 </Row>
                 <Row className='justify-content-center'>
