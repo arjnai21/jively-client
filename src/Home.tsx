@@ -172,10 +172,12 @@ export default function Home({ code, refreshToken }: HomeProps) {
         // A list of all characters that can be chosen.
         const characters = 'abcdefghijklmnopqrstuvwxyz';
 
+
+
         // Gets a random character from the characters string.
         let randomQuery = characters.charAt(Math.floor(Math.random() * characters.length));
         // randomly decide to use two characters or one
-        if (Math.floor(Math.random() * 2) === 0) {
+        if (Math.floor(Math.random() * 2) === 0 && !searchGenres.has("workout")) {
             randomQuery += characters.charAt(Math.floor(Math.random() * characters.length));
 
         }
@@ -199,15 +201,29 @@ export default function Home({ code, refreshToken }: HomeProps) {
 
         }
 
+        let offsetRange = 500;
+        if (searchGenres.has('work-out')) {
+            offsetRange = 50;
+        }
+
 
         spotifyApi.searchTracks(randomSearch, {
-            offset: Math.floor(Math.random() * 1000),
-            limit: 1,
+            offset: Math.floor(Math.random() * offsetRange),
+            limit: 50,
             market: "US",
         }).then((result) => {
-            const track = result.body?.tracks?.items[0];
+            let usableTrackInd = 0;
+            const length = result.body?.tracks?.items?.length ? result.body?.tracks?.items?.length : 0;
+            while (usableTrackInd < length && result.body?.tracks?.items[usableTrackInd].preview_url == null) {
+                usableTrackInd++;
+            }
+            const track = result.body?.tracks?.items[usableTrackInd];
+            // if (!track) {
+            //     console.error("something has gone wrong");
+            //     return;
+            // }
 
-            if (track?.preview_url == null || trackTitleSet.current.has(track.name)) {
+            if (track === undefined || trackTitleSet.current.has(track.name)) {
                 getRandomTrack(callback);
 
             } else {
@@ -216,7 +232,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
                     title: track.name,
                     uri: track.uri,
                     albumUrl: track.album.images[1].url,
-                    previewUrl: track.preview_url,
+                    previewUrl: (track.preview_url) ? track.preview_url : "mistake",
                     link: track.external_urls.spotify,
                     id: track.id,
 
