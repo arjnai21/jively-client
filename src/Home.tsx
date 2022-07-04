@@ -530,7 +530,7 @@ export default function Home({ code, refreshToken }: HomeProps) {
             </Row>
             {
                 (tracks.current.length > 0 && playingTrackInd >= 0) ?
-                    <Row className="d-flex justify-content-center align-items-center p-5">
+                    <Row className="d-flex justify-content-center align-items-center">
                         <Col xs={2} sm={2} md={1} lg={1}> {/*float not working*/}
                             {/* <Row> */}
                             <CaretLeft className='pb-100' color={elementColor} size={50} onClick={prevSong} style={{ cursor: "pointer" }} fill={elementColor} />
